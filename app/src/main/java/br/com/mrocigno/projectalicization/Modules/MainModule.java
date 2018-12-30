@@ -5,8 +5,6 @@ import android.app.Activity;
 import br.com.mrocigno.projectalicization.Model.MainModel;
 import br.com.mrocigno.projectalicization.Presenter.MainInterface;
 import br.com.mrocigno.projectalicization.Presenter.MainPresenter;
-import br.com.mrocigno.projectalicization.Presenter.SplashInterface;
-import br.com.mrocigno.projectalicization.Presenter.SplashPresenter;
 import dagger.Module;
 import dagger.Provides;
 

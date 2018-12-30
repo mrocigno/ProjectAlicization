@@ -1,15 +1,12 @@
 package br.com.mrocigno.projectalicization.Presenter;
 
-import android.util.Log;
-
 import br.com.mrocigno.projectalicization.Model.MainModel;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
-import br.com.mrocigno.projectalicization.RemoteModels.ListRemoteModels;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 
 public class MainPresenter implements MainModel.MangaListCallback {
 
     MainModel model;
-
     MainInterface view;
 
     public MainPresenter(MainInterface view, MainModel model) {
@@ -23,13 +20,13 @@ public class MainPresenter implements MainModel.MangaListCallback {
         view.addListSaves(model.getSavedMangaList());
     }
 
-    public void saveManga(ListRemoteModels item, boolean save){
+    public void saveManga(MangaListRemoteModel item, boolean save){
         model.saveManga(item,save);
         view.addListSaves(model.getSavedMangaList());
     }
 
     @Override
-    public void onSuccess(BaseArrayDataRemoteModel<ListRemoteModels> response) {
+    public void onSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response) {
         view.addList(response);
         view.setProgressbar(false);
     }

@@ -8,8 +8,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.ChangeImageTransform;
-import android.transition.Explode;
 import android.view.View;
 import android.view.Window;
 
@@ -27,7 +25,7 @@ import br.com.mrocigno.projectalicization.Presenter.MainInterface;
 import br.com.mrocigno.projectalicization.Presenter.MainPresenter;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
-import br.com.mrocigno.projectalicization.RemoteModels.ListRemoteModels;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 
 public class MainActivity extends MyActivity implements MainInterface, MangaThumbAdapter.ActionsInterface {
 
@@ -78,7 +76,7 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
     }
 
     @Override
-    public void addList(BaseArrayDataRemoteModel<ListRemoteModels> response) {
+    public void addList(BaseArrayDataRemoteModel<MangaListRemoteModel> response) {
         MangaThumbAdapter mangaThumbAdapter = new MangaThumbAdapter(response.getData(), getActivity(), this);
         GridLayoutManager glm = new GridLayoutManager(getActivity(), 2 , GridLayoutManager.VERTICAL, false);
         rcyMangas_Main.setLayoutManager(glm);
@@ -104,12 +102,12 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
     }
 
     @Override
-    public void onClickSaveButton(ListRemoteModels item, boolean save) {
+    public void onClickSaveButton(MangaListRemoteModel item, boolean save) {
         presenter.saveManga(item, save);
     }
 
     @Override
-    public void onCellClick(ListRemoteModels item) {
+    public void onCellClick(MangaListRemoteModel item) {
 //        changeActivity();
     }
 

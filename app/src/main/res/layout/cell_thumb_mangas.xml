@@ -19,12 +19,13 @@
             android:id="@+id/imgThumb_Cellthumb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:transitionName="img"
+            android:transitionName="cover"
             android:contentDescription="Manga cover"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/txtTitle_Cellthumb"
+            android:transitionName="title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

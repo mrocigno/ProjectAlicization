@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.com.mrocigno.projectalicization.R;
-import br.com.mrocigno.projectalicization.RemoteModels.ListRemoteModels;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 import br.com.mrocigno.projectalicization.View.DetailsActivity;
 
 public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<ListRemoteModels> itens;
+    ArrayList<MangaListRemoteModel> itens;
     Activity activity;
     ActionsInterface actionsInterface;
 
-    public MangaThumbAdapter(ArrayList<ListRemoteModels> itens, Activity activity, ActionsInterface actionsInterface) {
+    public MangaThumbAdapter(ArrayList<MangaListRemoteModel> itens, Activity activity, ActionsInterface actionsInterface) {
         this.itens = itens;
         this.activity = activity;
         this.actionsInterface = actionsInterface;
@@ -63,7 +64,7 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         }
 
-        public void setData(final Activity activity, final ListRemoteModels item, final ActionsInterface actionsInterface){
+        public void setData(final Activity activity, final MangaListRemoteModel item, final ActionsInterface actionsInterface){
             txtTitle_Cellthumb.setText(item.getName());
             GlideUtil.initGlide(activity, item.getCover(), imgThumb_Cellthumb);
 
@@ -86,11 +87,12 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(actionsInterface.getActivity(), DetailsActivity.class);
-                    intent.putExtra("cover", item.getCover());
+                    intent.putExtra("manga", item);
                     // create the transition animation - the images in the layouts
                     // of both activities are defined with android:transitionName="robot"
                     ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(actionsInterface.getActivity(), imgThumb_Cellthumb, "img");
+                            .makeSceneTransitionAnimation(actionsInterface.getActivity(), Pair.create((View)imgThumb_Cellthumb, "cover"), Pair.create((View)txtTitle_Cellthumb, "title"));
+
                     // start the new activity
                     actionsInterface.getActivity().startActivity(intent, options.toBundle());
                 }
@@ -99,8 +101,8 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public interface ActionsInterface{
-        void onClickSaveButton(ListRemoteModels item, boolean save);
-        void onCellClick(ListRemoteModels item);
+        void onClickSaveButton(MangaListRemoteModel item, boolean save);
+        void onCellClick(MangaListRemoteModel item);
         Activity getActivity();
     }
 }

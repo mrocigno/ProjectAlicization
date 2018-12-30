@@ -1,13 +1,15 @@
 package br.com.mrocigno.projectalicization.RemoteModels;
 
-public class ListRemoteModels {
+import java.io.Serializable;
+
+public class MangaListRemoteModel implements Serializable {
 
     String name;
     String link;
     String cover;
     int webid;
 
-    public ListRemoteModels(String name, String link, String cover, int webid) {
+    public MangaListRemoteModel(String name, String link, String cover, int webid) {
         this.name = name;
         this.link = link;
         this.cover = cover;
