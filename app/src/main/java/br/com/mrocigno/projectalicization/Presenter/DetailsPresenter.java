@@ -1,11 +1,14 @@
 package br.com.mrocigno.projectalicization.Presenter;
 
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
 import br.com.mrocigno.projectalicization.Model.DetailsModel;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 
-public class DetailsPresenter {
+public class DetailsPresenter implements DetailsModel.MangaDetailsCallback {
 
     DetailsInterface view;
     DetailsModel model;
@@ -17,7 +20,22 @@ public class DetailsPresenter {
 
     public void loadData(Intent intent){
         MangaListRemoteModel item = (MangaListRemoteModel) intent.getSerializableExtra("manga");
+        view.setProgressbar(true);
         view.addImediateData(item);
+        view.setSaved(model.isSaved(item.getWebid()));
+        model.getMangaDetails(item.getLink(), this);
     }
 
+    @Override
+    public void onDetailsSuccess(MangaDetailsRemoteModel item) {
+        view.setProgressbar(false);
+        view.setDetailsData(item);
+        Log.e("TESTEEE", "onDetailsSuccess: ");
+    }
+
+    @Override
+    public void onDetailsError(Throwable t) {
+        view.setProgressbar(false);
+        Log.e("TESTEEE", "onDetailsError: ", t);
+    }
 }

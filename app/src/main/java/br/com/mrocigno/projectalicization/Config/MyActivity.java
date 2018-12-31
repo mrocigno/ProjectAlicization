@@ -100,7 +100,7 @@ public abstract class MyActivity extends AppCompatActivity {
     }
 
     public void setProgressbarVisible(boolean visible){
-        pgrBar_Deafult.setVisibility(visible? View.VISIBLE:View.GONE);
+        pgrBar_Deafult.setVisibility(visible? View.VISIBLE:View.INVISIBLE);
     }
 
     @Override

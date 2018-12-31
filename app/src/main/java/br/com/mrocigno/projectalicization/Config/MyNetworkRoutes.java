@@ -1,6 +1,8 @@
 package br.com.mrocigno.projectalicization.Config;
 
 import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
+import br.com.mrocigno.projectalicization.RemoteModels.BaseRemoteModel;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +15,8 @@ public interface MyNetworkRoutes {
 
     @GET("search.php")
     Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> searchMangas(@Query("search") String search);
+
+    @GET("comic.php")
+    Call<BaseRemoteModel<MangaDetailsRemoteModel>> getMangaDetails(@Query("link") String link);
 
 }
