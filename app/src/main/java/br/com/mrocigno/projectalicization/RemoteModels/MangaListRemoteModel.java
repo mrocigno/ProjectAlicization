@@ -7,13 +7,23 @@ public class MangaListRemoteModel implements Serializable {
     String name;
     String link;
     String cover;
+    String genre;
     int webid;
 
-    public MangaListRemoteModel(String name, String link, String cover, int webid) {
+    public MangaListRemoteModel(String name, String link, String cover, String genre, int webid) {
         this.name = name;
         this.link = link;
         this.cover = cover;
+        this.genre = genre;
         this.webid = webid;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public int getWebid() {

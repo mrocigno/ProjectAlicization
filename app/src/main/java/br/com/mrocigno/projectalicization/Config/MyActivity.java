@@ -17,9 +17,9 @@ import android.widget.ProgressBar;
 
 import br.com.mrocigno.projectalicization.R;
 
-public abstract class MyActivity extends AppCompatActivity implements MyView {
+public abstract class MyActivity extends AppCompatActivity {
 
-    String TAG = "TESTEEE";
+    public String TAG = "TESTEEE";
 
     FrameLayout defaultContainer;
     Toolbar toolbar;
@@ -40,16 +40,28 @@ public abstract class MyActivity extends AppCompatActivity implements MyView {
         srvSearch_Default.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imgLogo_Default.setVisibility(View.GONE);
-                toolbar.getMenu().clear();
+                onSearchViewClick();
+            }
+        });
+
+        srvSearch_Default.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                onSearchViewTextSubmit(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                onSearchViewTextChange(s);
+                return false;
             }
         });
 
         srvSearch_Default.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                imgLogo_Default.setVisibility(View.VISIBLE);
-                toolbar.inflateMenu(R.menu.main_menu);
+                onSearchViewClose();
                 return false;
             }
         });
@@ -61,9 +73,28 @@ public abstract class MyActivity extends AppCompatActivity implements MyView {
         setSupportActionBar(toolbar);
     }
 
+    public void onSearchViewClose() {
+        imgLogo_Default.setVisibility(View.VISIBLE);
+        toolbar.inflateMenu(R.menu.main_menu);
+    }
+
+    public void onSearchViewClick() {
+        imgLogo_Default.setVisibility(View.GONE);
+        toolbar.getMenu().clear();
+    }
+
+    public void onSearchViewTextSubmit(String s){
+
+    }
+
+    public void onSearchViewTextChange(String s){
+
+    }
+
     public abstract int getLayoutRes();
 
-    @Override
+    public abstract void changeActivity(Class mClass);
+
     public Activity getActivity() {
         return this;
     }
@@ -77,6 +108,10 @@ public abstract class MyActivity extends AppCompatActivity implements MyView {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    public SearchView getSrvSearch_Default() {
+        return srvSearch_Default;
     }
 
     @Override
@@ -99,6 +134,7 @@ public abstract class MyActivity extends AppCompatActivity implements MyView {
     @Override
     public void onBackPressed() {
         if(!srvSearch_Default.isIconified()){
+            srvSearch_Default.setQuery("", false);
             srvSearch_Default.setIconified(true);
         }else{
             super.onBackPressed();

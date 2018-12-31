@@ -37,6 +37,20 @@ public class MainModel extends MyModel {
         });
     }
 
+    public void searchManga(String name, final MangaSearchCallback callback){
+        getRetrofit().create(MyNetworkRoutes.class).searchMangas(name).enqueue(new Callback<BaseArrayDataRemoteModel<MangaListRemoteModel>>() {
+            @Override
+            public void onResponse(Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> call, Response<BaseArrayDataRemoteModel<MangaListRemoteModel>> response) {
+                callback.onSearchSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> call, Throwable t) {
+                callback.onSearchError(t);
+            }
+        });
+    }
+
     public ArrayList<Map<String, String>> getSavedMangaList(){
         return getLocalData().query("SELECT * FROM saved_mangas WHERE saved = 1", null);
     }
@@ -62,5 +76,10 @@ public class MainModel extends MyModel {
     public interface MangaListCallback{
         void onSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response);
         void onError(Throwable t);
+    }
+
+    public interface MangaSearchCallback{
+        void onSearchSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response);
+        void onSearchError(Throwable t);
     }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.MainActivity">
 
@@ -68,6 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
                         android:paddingBottom="15dp"/>
 
                 </LinearLayout>
@@ -77,5 +79,26 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/frmBlack_Main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#9e000000"
+        android:visibility="gone">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcySearch_Main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"/>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </FrameLayout>
 
 </FrameLayout>

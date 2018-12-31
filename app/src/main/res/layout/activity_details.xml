@@ -18,13 +18,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#000"
-                android:foreground="@drawable/margin_bottom"
-                android:scaleType="centerCrop"/>
+                android:foreground="@drawable/border_bottom"
+                android:scaleType="centerCrop" />
 
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgSave_Details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_saved_in"
+                android:backgroundTint="@color/white_transparent"
+                android:padding="2dp"
+                android:src="@drawable/ic_saved_off"
+                android:tag="unselected"
+                android:transitionName="save" />
 
         </RelativeLayout>
 
@@ -32,12 +45,12 @@
         <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="2dp"
+            android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -47,28 +60,29 @@
                     android:id="@+id/imgCover_Details"
                     android:layout_width="82dp"
                     android:layout_height="130dp"
-                    android:transitionName="cover"
-                    android:scaleType="centerCrop"/>
+                    android:foreground="@drawable/border_all_square"
+                    android:scaleType="centerCrop"
+                    android:transitionName="cover" />
 
             </FrameLayout>
 
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:transitionName="title"
             android:id="@+id/txtTitle_Details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="title"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="70dp"
             android:layout_marginLeft="112dp"
+            android:layout_marginBottom="70dp"
             android:shadowColor="@android:color/black"
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="4"
+            android:text="title"
             android:textColor="@android:color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:transitionName="title" />
 
     </FrameLayout>
 

@@ -8,7 +8,10 @@ import retrofit2.http.Query;
 
 public interface MyNetworkRoutes {
 
-    @GET("search.php")
+    @GET("list.php")
     Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> getListMangas(@Query("page") String page, @Query("limit") String limit);
+
+    @GET("search.php")
+    Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> searchMangas(@Query("search") String search);
 
 }
