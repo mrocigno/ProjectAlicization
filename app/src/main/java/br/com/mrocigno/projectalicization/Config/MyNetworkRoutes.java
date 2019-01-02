@@ -24,4 +24,7 @@ public interface MyNetworkRoutes {
 
     @GET("pages.php")
     Call<BaseRemoteModel<PagesDataRemoteModel>> getPagesData(@Query("link") String link);
+
+    @GET("pageJPG.php")
+    Call<ResponseBody> getPageJPG(@Query("link") String link);
 }

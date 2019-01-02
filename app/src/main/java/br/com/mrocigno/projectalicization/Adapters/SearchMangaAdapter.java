@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
-import br.com.mrocigno.projectalicization.Utils.GlideUtil;
+import br.com.mrocigno.projectalicization.Utils.PicassoUtil;
 import br.com.mrocigno.projectalicization.View.DetailsActivity;
 
 public class SearchMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -64,7 +63,7 @@ public class SearchMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public void setData(final Activity activity, final MangaListRemoteModel item, final SearchMangaAdapter.ActionsInterface actionsInterface){
             txtTitle_Cellsearch.setText(item.getName());
-            GlideUtil.initGlide(activity, item.getCover(), imgThumb_Cellsearch);
+            PicassoUtil.initGlide(activity, item.getCover(), imgThumb_Cellsearch);
 
             lnlCell_Cellsearch.setOnClickListener(new View.OnClickListener() {
                 @Override

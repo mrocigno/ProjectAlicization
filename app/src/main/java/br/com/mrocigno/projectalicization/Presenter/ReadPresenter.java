@@ -23,6 +23,7 @@ public class ReadPresenter implements ReadModel.DataCallback {
     public void onDataSuccess(PagesDataRemoteModel data) {
         view.setLoadProgress(false);
         view.showPages(data);
+        data = null;
     }
 
     @Override

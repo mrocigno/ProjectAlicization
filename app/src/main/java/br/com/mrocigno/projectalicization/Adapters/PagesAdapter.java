@@ -6,19 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
-import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 
 public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Activity activity;
     ArrayList<PagesDataRemoteModel.Pages> itens;
+    boolean clear;
+
+    public void setClear(boolean clear) {
+        this.clear = clear;
+    }
 
     public PagesAdapter(Activity activity, ArrayList<PagesDataRemoteModel.Pages> itens) {
         this.activity = activity;
@@ -33,7 +41,10 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        ((AdapterViewHolder) viewHolder).setData(activity, itens.get(i));
+        if(clear)
+            ((AdapterViewHolder) viewHolder).clear();
+        else
+            ((AdapterViewHolder) viewHolder).setData(activity, itens.get(i));
     }
 
     @Override
@@ -44,23 +55,59 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class AdapterViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imgPage_Cellpage;
-        Button reload;
+
+        LinearLayout lnlProgress_Read;
+        TextView txtMsgProgress_Read;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgPage_Cellpage = itemView.findViewById(R.id.imgPage_Cellpage);
-            reload = itemView.findViewById(R.id.reload);
+            lnlProgress_Read = itemView.findViewById(R.id.lnlProgress_Cellpage);
+            txtMsgProgress_Read = itemView.findViewById(R.id.txtMsgProgress_Cellpage);
+        }
+
+        public void clear(){
+            imgPage_Cellpage.setImageBitmap(null);
+            imgPage_Cellpage = null;
         }
 
         public void setData(final Activity activity, final PagesDataRemoteModel.Pages item){
-            GlideUtil.initGlide(activity, "http://traduzame.esy.es/pageJPG.php?link=" + item.getLink(), imgPage_Cellpage);
-            reload.setOnClickListener(new View.OnClickListener() {
+            Picasso.get().load("http://traduzame.esy.es/pageJPG.php?link=" + item.getLink()).into(imgPage_Cellpage, new Callback() {
                 @Override
-                public void onClick(View v) {
-                    GlideUtil.initGlide(activity, "http://traduzame.esy.es/pageJPG.php?link=" + item.getLink(), imgPage_Cellpage);
+                public void onSuccess() {
+                    lnlProgress_Read.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    txtMsgProgress_Read.setText("A página não pode ser carregada");
                 }
             });
+
+//            PicassoUtil.initGlide(activity, "http://traduzame.esy.es/pageJPG.php?link=" + item.getLink(), imgPage_Cellpage);
+//            reload.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    PicassoUtil.initGlide(activity, "http://traduzame.esy.es/pageJPG.php?link=" + item.getLink(), imgPage_Cellpage);
+//                }
+//            });
+//            new Retrofit.Builder()
+//                    .baseUrl("http://traduzame.esy.es/").build().create(MyNetworkRoutes.class).getPageJPG(item.getLink()).enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    try {
+//                        imgPage_Cellpage.setImageBitmap(BitmapFactory.decodeByteArray(response.body().bytes(), 0, response.body().bytes().length));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                }
+//            });
         }
     }
 }

@@ -147,8 +147,16 @@ public abstract class MyActivity extends AppCompatActivity {
             srvSearch_Default.setQuery("", false);
             srvSearch_Default.setIconified(true);
         }else{
+//            finish();
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Runtime.getRuntime().gc();
+        System.gc();
     }
 
     public boolean showToolbar(){

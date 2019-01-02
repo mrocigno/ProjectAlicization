@@ -14,19 +14,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,9 +46,9 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 
     RecyclerView rcyPages_Read;
 
-    LinearLayout lnlProgress_Read;
-
-    TextView txtMsgProgress_Read;
+//    LinearLayout lnlProgress_Read;
+//
+//    TextView txtMsgProgress_Read;
 
 //    ViewPager viewPager_Read;
     ImageSwitcher imgSwitcher_Read;
@@ -62,11 +57,12 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         rcyPages_Read = findViewById(R.id.rcyPages_Read);
-        lnlProgress_Read = findViewById(R.id.lnlProgress_Read);
-        txtMsgProgress_Read = findViewById(R.id.txtMsgProgress_Read);
+//        lnlProgress_Read = findViewById(R.id.lnlProgress_Read);
+//        txtMsgProgress_Read = findViewById(R.id.txtMsgProgress_Read);
 
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(rcyPages_Read);
@@ -100,25 +96,38 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 //        }
 //        pagerAdapter.listFragments(list);
 //        viewPager_Read.setAdapter(pagerAdapter);
-        PagesAdapter pagesAdapter = new PagesAdapter(getActivity(), pages.getPages());
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        rcyPages_Read.setLayoutManager(llm);
-        rcyPages_Read.setAdapter(pagesAdapter);
+//        PagesAdapter pagesAdapter = new PagesAdapter(ReadActivity.this, pages.getPages());
+//        LinearLayoutManager llm = new LinearLayoutManager(ReadActivity.this, LinearLayoutManager.VERTICAL, false);
+        rcyPages_Read.setLayoutManager(new LinearLayoutManager(ReadActivity.this, LinearLayoutManager.VERTICAL, false));
+        rcyPages_Read.setAdapter(new PagesAdapter(ReadActivity.this, pages.getPages()));
+        pages = null;
     }
 
     @Override
     public void setLoadProgress(boolean visible) {
-        lnlProgress_Read.setVisibility(visible ? View.VISIBLE : View.GONE);
+//        lnlProgress_Read.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void setMsgProgress(String string) {
-        txtMsgProgress_Read.setText(string);
+//        txtMsgProgress_Read.setText(string);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Runtime.getRuntime().gc();
+        System.gc();
+    }
+
+    @Override
+    public void onBackPressed() {
+        ((PagesAdapter)rcyPages_Read.getAdapter()).setClear(true);
+        rcyPages_Read.getAdapter().notifyDataSetChanged();
+        rcyPages_Read.setAdapter(null);
+        rcyPages_Read.setLayoutManager(null);
+        rcyPages_Read = null;
+        super.onBackPressed();
     }
 
     @Override

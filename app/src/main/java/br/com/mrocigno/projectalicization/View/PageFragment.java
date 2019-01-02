@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import br.com.mrocigno.projectalicization.R;
-import br.com.mrocigno.projectalicization.Utils.GlideUtil;
+import br.com.mrocigno.projectalicization.Utils.PicassoUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +37,7 @@ public class PageFragment extends Fragment {
 
         imgPage_Cellpage = view.findViewById(R.id.imgPage_Cellpage);
 
-        GlideUtil.initGlide(getActivity(),"http://traduzame.esy.es/pageJPG.php?link=" +  getArguments().getString("link"), imgPage_Cellpage);
+        PicassoUtil.initGlide(getActivity(),"http://traduzame.esy.es/pageJPG.php?link=" +  getArguments().getString("link"), imgPage_Cellpage);
 
         return view;
     }

@@ -38,10 +38,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.squareup.okio:okio:1.15.0'
 
-    implementation('com.github.bumptech.glide:glide:4.6.1') {
+    implementation ('com.squareup.picasso:picasso:2.71828'){
         exclude group: "com.android.support"
-        // aqui excluo o supote a bilbioteca suport , pois a ultima vesão do glide
-        // usa a api 27 para video decoder , entao caso não va utilizar , nao inporto
-        // para nao ter comflito com a suport library usada neste projeto
     }
+
+//    implementation('com.github.bumptech.glide:glide:4.6.1') {
+//        exclude group: "com.android.support"
+//        // aqui excluo o supote a bilbioteca suport , pois a ultima vesão do glide
+//        // usa a api 27 para video decoder , entao caso não va utilizar , nao inporto
+//        // para nao ter comflito com a suport library usada neste projeto
+//    }
 }

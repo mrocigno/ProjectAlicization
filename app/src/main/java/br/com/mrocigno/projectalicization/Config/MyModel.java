@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import br.com.mrocigno.projectalicization.Application;
 import br.com.mrocigno.projectalicization.Components.DaggerModelComponent;
 import br.com.mrocigno.projectalicization.Database.LocalData;
+import br.com.mrocigno.projectalicization.Model.ReadModel;
 import br.com.mrocigno.projectalicization.Modules.DataModule;
+import br.com.mrocigno.projectalicization.View.ReadActivity;
 import retrofit2.Retrofit;
 
 public class MyModel {
@@ -26,6 +28,7 @@ public class MyModel {
                 .dataModule(new DataModule(activity))
                 .build()
                 .inject(this);
+
     }
 
     public Retrofit getRetrofit() {

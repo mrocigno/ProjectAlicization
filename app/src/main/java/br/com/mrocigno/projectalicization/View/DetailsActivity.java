@@ -1,11 +1,13 @@
 package br.com.mrocigno.projectalicization.View;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,7 +23,7 @@ import br.com.mrocigno.projectalicization.Presenter.DetailsPresenter;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
-import br.com.mrocigno.projectalicization.Utils.GlideUtil;
+import br.com.mrocigno.projectalicization.Utils.PicassoUtil;
 
 public class DetailsActivity extends MyActivity implements DetailsInterface, ChaptersAdapter.ActionsChaptersAdapter {
 
@@ -46,6 +48,8 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setExitTransition(new Explode());
         super.onCreate(savedInstanceState);
 
         initDagger();
@@ -90,7 +94,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
     @Override
     public void addImediateData(MangaListRemoteModel item) {
-        GlideUtil.initGlide(getActivity(), item.getCover(), imgCover_Details);
+        PicassoUtil.initGlide(getActivity(), item.getCover(), imgCover_Details);
         txtTitle_Details.setText(item.getName());
     }
 
@@ -131,6 +135,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
     public void onChapterClick(String link) {
         Intent intent = new Intent(getActivity(), ReadActivity.class);
         intent.putExtra("link", link);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
+
 }
