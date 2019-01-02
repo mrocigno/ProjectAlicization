@@ -9,6 +9,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ReadActivityTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="SearchViewColors">
         <item name="android:editTextColor">@android:color/black</item>
         <item name="android:textColorHint">@android:color/black</item>

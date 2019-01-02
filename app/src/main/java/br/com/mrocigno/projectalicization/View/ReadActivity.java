@@ -18,6 +18,7 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -57,7 +58,9 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
         rcyPages_Read = findViewById(R.id.rcyPages_Read);

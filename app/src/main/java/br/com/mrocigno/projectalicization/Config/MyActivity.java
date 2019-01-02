@@ -37,11 +37,11 @@ public abstract class MyActivity extends AppCompatActivity {
 
         defaultContainer = findViewById(R.id.defaultContainer);
         fabBtn_Default = findViewById(R.id.fabBtn_Default);
+        pgrBar_Deafult = findViewById(R.id.pgrBar_Deafult);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if(showToolbar()){
-            pgrBar_Deafult = findViewById(R.id.pgrBar_Deafult);
             srvSearch_Default = findViewById(R.id.srvSearch_Default);
             imgLogo_Default = findViewById(R.id.imgLogo_Default);
 
@@ -75,6 +75,7 @@ public abstract class MyActivity extends AppCompatActivity {
             });
         }else{
             toolbar.setVisibility(View.GONE);
+            pgrBar_Deafult.setVisibility(View.GONE);
         }
 
 
