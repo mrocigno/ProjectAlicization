@@ -3,6 +3,8 @@ package br.com.mrocigno.projectalicization.View;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import javax.inject.Inject;
 
+import br.com.mrocigno.projectalicization.Adapters.ChaptersAdapter;
 import br.com.mrocigno.projectalicization.Components.DaggerDetailsComponent;
 import br.com.mrocigno.projectalicization.Config.MyActivity;
 import br.com.mrocigno.projectalicization.Modules.DetailsModule;
@@ -20,7 +23,7 @@ import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 
-public class DetailsActivity extends MyActivity implements DetailsInterface {
+public class DetailsActivity extends MyActivity implements DetailsInterface, ChaptersAdapter.ActionsChaptersAdapter {
 
     @Inject
     DetailsPresenter presenter;
@@ -38,6 +41,8 @@ public class DetailsActivity extends MyActivity implements DetailsInterface {
     ImageView imgSave_Details;
 
     ProgressBar pgrBar_Details;
+
+    RecyclerView rcyChapters_Details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class DetailsActivity extends MyActivity implements DetailsInterface {
 
         pgrBar_Details = findViewById(R.id.pgrBar_Details);
 
+        rcyChapters_Details = findViewById(R.id.rcyChapters_Details);
+
         Intent intent = getIntent();
         if(intent.hasExtra("manga")){
             presenter.loadData(intent);
@@ -78,7 +85,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface {
 
     @Override
     public void changeActivity(Class mClass) {
-
+        startActivity(new Intent(getActivity(), mClass));
     }
 
     @Override
@@ -107,11 +114,23 @@ public class DetailsActivity extends MyActivity implements DetailsInterface {
         txtGenre_Details.setText(item.getGenre());
         txtStatus_Details.setText(item.getStatus());
         txtAutor_Details.setText(item.getAuthor());
+
+        ChaptersAdapter chaptersAdapter = new ChaptersAdapter(item.getChapters(), this, getActivity());
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        rcyChapters_Details.setLayoutManager(llm);
+        rcyChapters_Details.setAdapter(chaptersAdapter);
     }
 
     @Override
     public void setProgressbar(boolean visible) {
         setProgressbarVisible(visible);
         pgrBar_Details.setVisibility(visible? View.VISIBLE: View.INVISIBLE);
+    }
+
+    @Override
+    public void onChapterClick(String link) {
+        Intent intent = new Intent(getActivity(), ReadActivity.class);
+        intent.putExtra("link", link);
+        startActivity(intent);
     }
 }

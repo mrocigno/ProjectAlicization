@@ -24,8 +24,8 @@
         <activity
             android:name=".View.MainActivity"
             android:label="teste" />
-        <activity
-            android:name=".View.DetailsActivity"/>
+        <activity android:name=".View.DetailsActivity" />
+        <activity android:name=".View.ReadActivity"></activity>
     </application>
 
 </manifest>

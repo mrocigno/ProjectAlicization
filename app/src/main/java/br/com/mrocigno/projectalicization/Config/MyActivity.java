@@ -1,8 +1,10 @@
 package br.com.mrocigno.projectalicization.Config;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ public abstract class MyActivity extends AppCompatActivity {
 
     public String TAG = "TESTEEE";
 
+    FloatingActionButton fabBtn_Default;
     FrameLayout defaultContainer;
     Toolbar toolbar;
     ProgressBar pgrBar_Deafult;
@@ -33,44 +36,51 @@ public abstract class MyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_default);
 
         defaultContainer = findViewById(R.id.defaultContainer);
-        pgrBar_Deafult = findViewById(R.id.pgrBar_Deafult);
-        srvSearch_Default = findViewById(R.id.srvSearch_Default);
-        imgLogo_Default = findViewById(R.id.imgLogo_Default);
+        fabBtn_Default = findViewById(R.id.fabBtn_Default);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        srvSearch_Default.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSearchViewClick();
-            }
-        });
+        if(showToolbar()){
+            pgrBar_Deafult = findViewById(R.id.pgrBar_Deafult);
+            srvSearch_Default = findViewById(R.id.srvSearch_Default);
+            imgLogo_Default = findViewById(R.id.imgLogo_Default);
 
-        srvSearch_Default.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                onSearchViewTextSubmit(s);
-                return false;
-            }
+            srvSearch_Default.setOnSearchClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onSearchViewClick();
+                }
+            });
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                onSearchViewTextChange(s);
-                return false;
-            }
-        });
+            srvSearch_Default.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    onSearchViewTextSubmit(s);
+                    return false;
+                }
 
-        srvSearch_Default.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                onSearchViewClose();
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    onSearchViewTextChange(s);
+                    return false;
+                }
+            });
+
+            srvSearch_Default.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    onSearchViewClose();
+                    return false;
+                }
+            });
+        }else{
+            toolbar.setVisibility(View.GONE);
+        }
+
+
 
         View v = getLayoutInflater().inflate(getLayoutRes(), null);
         defaultContainer.addView(v);
-
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
     public void onSearchViewClose() {
@@ -133,11 +143,20 @@ public abstract class MyActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!srvSearch_Default.isIconified()){
+        if(srvSearch_Default != null && !srvSearch_Default.isIconified()){
             srvSearch_Default.setQuery("", false);
             srvSearch_Default.setIconified(true);
         }else{
             super.onBackPressed();
         }
+    }
+
+    public boolean showToolbar(){
+        return true;
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void showFab(boolean show){
+        fabBtn_Default.setVisibility(show? View.VISIBLE: View.GONE);
     }
 }

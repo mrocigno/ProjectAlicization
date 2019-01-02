@@ -15,6 +15,9 @@ public class MyModel {
     Retrofit retrofit;
 
     @Inject
+    Retrofit.Builder retrofitBuilder;
+
+    @Inject
     LocalData localData;
 
     public MyModel(Activity activity) {
@@ -31,5 +34,9 @@ public class MyModel {
 
     public LocalData getLocalData() {
         return localData;
+    }
+
+    public Retrofit getRetrofitDownloader(){
+        return retrofitBuilder.build();
     }
 }
