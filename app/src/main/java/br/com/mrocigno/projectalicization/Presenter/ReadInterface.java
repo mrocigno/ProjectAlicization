@@ -5,6 +5,4 @@ import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
 
 public interface ReadInterface extends MyView {
     void showPages(PagesDataRemoteModel pages);
-    void setLoadProgress(boolean visible);
-    void setMsgProgress(String string);
 }

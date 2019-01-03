@@ -6,4 +6,8 @@
     <color name="white_transparent">#92ffffff</color>
     <color name="black_transparent">#92000000</color>
     <color name="gray">#e1e0e0</color>
+    <color name="darkColorPrimary">#333333</color>
+    <color name="darkColorPrimaryDark">#333333</color>
+    <color name="dividerWhiteBack">#e6e6e6</color>
+    <color name="dividerBlackBack">#404040</color>
 </resources>

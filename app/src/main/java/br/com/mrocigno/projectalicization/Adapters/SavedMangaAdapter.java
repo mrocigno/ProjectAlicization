@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import br.com.mrocigno.projectalicization.R;
-import br.com.mrocigno.projectalicization.Utils.PicassoUtil;
+import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 
 public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -51,7 +51,7 @@ public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void setData(Activity activity, Map<String, String> item){
-            PicassoUtil.initGlide(activity, item.get("cover"), imgCover_Cellsaved);
+            GlideUtil.initGlide(activity, item.get("cover"), imgCover_Cellsaved);
         }
     }
 

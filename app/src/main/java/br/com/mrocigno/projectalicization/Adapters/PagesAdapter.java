@@ -44,7 +44,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if(clear)
             ((AdapterViewHolder) viewHolder).clear();
         else
-            ((AdapterViewHolder) viewHolder).setData(activity, itens.get(i));
+            ((AdapterViewHolder) viewHolder).setData(itens.get(i));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             imgPage_Cellpage = null;
         }
 
-        public void setData(final Activity activity, final PagesDataRemoteModel.Pages item){
+        public void setData(final PagesDataRemoteModel.Pages item){
             Picasso.get().load("http://traduzame.esy.es/pageJPG.php?link=" + item.getLink()).into(imgPage_Cellpage, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -84,30 +84,6 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     txtMsgProgress_Read.setText("A página não pode ser carregada");
                 }
             });
-
-//            PicassoUtil.initGlide(activity, "http://traduzame.esy.es/pageJPG.php?link=" + item.getLink(), imgPage_Cellpage);
-//            reload.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    PicassoUtil.initGlide(activity, "http://traduzame.esy.es/pageJPG.php?link=" + item.getLink(), imgPage_Cellpage);
-//                }
-//            });
-//            new Retrofit.Builder()
-//                    .baseUrl("http://traduzame.esy.es/").build().create(MyNetworkRoutes.class).getPageJPG(item.getLink()).enqueue(new Callback<ResponseBody>() {
-//                @Override
-//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                    try {
-//                        imgPage_Cellpage.setImageBitmap(BitmapFactory.decodeByteArray(response.body().bytes(), 0, response.body().bytes().length));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                }
-//            });
         }
     }
 }

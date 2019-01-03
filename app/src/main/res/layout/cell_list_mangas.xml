@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/lnlCell_Cellsearch"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout android:id="@+id/lnlCell_Cellsearch"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground"
     android:background="@drawable/border_bottom_center_gray"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/imgThumb_Cellsearch"
-        android:layout_width="70dp"
-        android:layout_height="110dp"
-        android:transitionName="cover"
-        android:scaleType="centerCrop"
-        android:foreground="@drawable/border_all_square"
-        android:layout_margin="5dp"/>
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="?colorPrimary"
+        app:cardElevation="1dp"
+        app:cardCornerRadius="2dp">
+
+        <ImageView
+            android:id="@+id/imgThumb_Cellsearch"
+            android:layout_width="70dp"
+            android:layout_height="110dp"
+            android:transitionName="cover"
+            android:scaleType="centerCrop"
+            android:foreground="@drawable/border_all_square" />
+
+    </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:layout_marginTop="5dp"
@@ -28,7 +38,6 @@
             android:layout_width="match_parent"
             android:transitionName="title"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:layout_height="wrap_content"
             android:text="Title"/>
 

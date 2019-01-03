@@ -14,21 +14,18 @@ public class ReadPresenter implements ReadModel.DataCallback {
     }
 
     public void loadData(String link){
-        view.setLoadProgress(true);
-        view.setMsgProgress("Carregando...");
         model.loadData(link, this);
     }
 
     @Override
     public void onDataSuccess(PagesDataRemoteModel data) {
-        view.setLoadProgress(false);
         view.showPages(data);
         data = null;
     }
 
     @Override
     public void onDataError(Throwable t) {
-        view.setMsgProgress("Houve um erro e o PDF não pôde ser criado");
+
     }
 
 }

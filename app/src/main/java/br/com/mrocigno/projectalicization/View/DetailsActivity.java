@@ -23,7 +23,7 @@ import br.com.mrocigno.projectalicization.Presenter.DetailsPresenter;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
-import br.com.mrocigno.projectalicization.Utils.PicassoUtil;
+import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 
 public class DetailsActivity extends MyActivity implements DetailsInterface, ChaptersAdapter.ActionsChaptersAdapter {
 
@@ -94,7 +94,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
     @Override
     public void addImediateData(MangaListRemoteModel item) {
-        PicassoUtil.initGlide(getActivity(), item.getCover(), imgCover_Details);
+        GlideUtil.initGlide(getActivity(), item.getCover(), imgCover_Details);
         txtTitle_Details.setText(item.getName());
     }
 

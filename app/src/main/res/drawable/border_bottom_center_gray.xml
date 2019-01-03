@@ -3,7 +3,7 @@
     <item android:gravity="bottom" android:left="20dp" android:right="20dp">
         <shape android:shape="rectangle">
             <size android:height="1dp"/>
-            <solid android:color="@color/gray"/>
+            <solid android:color="?colorControlHighlight"/>
         </shape>
     </item>
 </layer-list>

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
-import br.com.mrocigno.projectalicization.Utils.PicassoUtil;
+import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 import br.com.mrocigno.projectalicization.View.DetailsActivity;
 
 public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -66,7 +66,7 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public void setData(final Activity activity, final MangaListRemoteModel item, final ActionsInterface actionsInterface){
             txtTitle_Cellthumb.setText(item.getName());
-            PicassoUtil.initGlide(activity, item.getCover(), imgThumb_Cellthumb);
+            GlideUtil.initGlide(activity, item.getCover(), imgThumb_Cellthumb);
 
             imgSave_Cellthumb.setOnClickListener(new View.OnClickListener() {
                 @Override
