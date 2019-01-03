@@ -25,6 +25,8 @@
     </style>
 
     <style name="SearchViewColors">
+        <item name="android:textColorHint">?android:textColor</item>
+        <item name="android:editTextColor">?android:textColor</item>
         <item name="colorAccent">?android:textColor</item>
         <item name="android:tint">?android:textColor</item>
         <item name="android:backgroundTint">?android:textColor</item>
