@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import br.com.mrocigno.projectalicization.Database.Preferences;
 import br.com.mrocigno.projectalicization.R;
 
 public abstract class MyActivity extends AppCompatActivity {
@@ -32,6 +33,10 @@ public abstract class MyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if(Preferences.getInstace(getActivity()).isDarkTheme()){
+            this.setTheme(R.style.AppThemeDark);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default);
 
@@ -127,11 +132,20 @@ public abstract class MyActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        int id = item.getItemId();
+
+        if (id == R.id.menuDarkTheme) {
+            Preferences pref = Preferences.getInstace(getActivity());
+            if(pref.isDarkTheme()){
+                pref.setDarkTheme(false);
+                item.setTitle("Tema escuro");
+            }else{
+                pref.setDarkTheme(true);
+                item.setTitle("Tema claro");
+            }
+            recreate();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
