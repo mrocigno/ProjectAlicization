@@ -10,13 +10,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import br.com.mrocigno.projectalicization.Helpers.CustomRelativeLayout;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
+import br.com.mrocigno.projectalicization.Utils.Util;
 
 public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -52,7 +55,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return itens.size();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder{
+    public class AdapterViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgPage_Cellpage;
 
@@ -65,6 +68,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             imgPage_Cellpage = itemView.findViewById(R.id.imgPage_Cellpage);
             lnlProgress_Read = itemView.findViewById(R.id.lnlProgress_Cellpage);
             txtMsgProgress_Read = itemView.findViewById(R.id.txtMsgProgress_Cellpage);
+
         }
 
         public void clear(){
@@ -73,6 +77,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         public void setData(final PagesDataRemoteModel.Pages item){
+
             Picasso.get().load("http://traduzame.esy.es/pageJPG.php?link=" + item.getLink()).into(imgPage_Cellpage, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -84,6 +89,8 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     txtMsgProgress_Read.setText("A página não pode ser carregada");
                 }
             });
+
         }
+
     }
 }

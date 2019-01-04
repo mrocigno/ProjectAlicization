@@ -27,7 +27,11 @@ public class MainModel extends MyModel {
         getRetrofit().create(MyNetworkRoutes.class).getListMangas(page, limit).enqueue(new Callback<BaseArrayDataRemoteModel<MangaListRemoteModel>>() {
             @Override
             public void onResponse(Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> call, Response<BaseArrayDataRemoteModel<MangaListRemoteModel>> response) {
-                callback.onSuccess(response.body());
+                ArrayList<MangaListRemoteModel> list = response.body().getData();
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).setSaved(getLocalData().checkIfThereIs("saved_mangas", "webid = "+list.get(i).getWebid() + " AND saved = 1"));
+                }
+                callback.onSuccess(list);
             }
 
             @Override
@@ -41,7 +45,7 @@ public class MainModel extends MyModel {
         getRetrofit().create(MyNetworkRoutes.class).searchMangas(name).enqueue(new Callback<BaseArrayDataRemoteModel<MangaListRemoteModel>>() {
             @Override
             public void onResponse(Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> call, Response<BaseArrayDataRemoteModel<MangaListRemoteModel>> response) {
-                callback.onSearchSuccess(response.body());
+                callback.onSearchSuccess(response.body().getData());
             }
 
             @Override
@@ -74,12 +78,12 @@ public class MainModel extends MyModel {
     }
 
     public interface MangaListCallback{
-        void onSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response);
+        void onSuccess(ArrayList<MangaListRemoteModel> response);
         void onError(Throwable t);
     }
 
     public interface MangaSearchCallback{
-        void onSearchSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response);
+        void onSearchSuccess(ArrayList<MangaListRemoteModel> response);
         void onSearchError(Throwable t);
     }
 }

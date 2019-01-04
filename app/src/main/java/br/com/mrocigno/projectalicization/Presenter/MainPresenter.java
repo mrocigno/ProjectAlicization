@@ -1,5 +1,7 @@
 package br.com.mrocigno.projectalicization.Presenter;
 
+import java.util.ArrayList;
+
 import br.com.mrocigno.projectalicization.Model.MainModel;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
@@ -31,7 +33,7 @@ public class MainPresenter implements MainModel.MangaListCallback, MainModel.Man
     }
 
     @Override
-    public void onSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response) {
+    public void onSuccess(ArrayList<MangaListRemoteModel> response) {
         view.addList(response);
         view.setProgressbar(false);
     }
@@ -42,7 +44,7 @@ public class MainPresenter implements MainModel.MangaListCallback, MainModel.Man
     }
 
     @Override
-    public void onSearchSuccess(BaseArrayDataRemoteModel<MangaListRemoteModel> response) {
+    public void onSearchSuccess(ArrayList<MangaListRemoteModel> response) {
         view.setProgressbar(false);
         view.addSearchList(response);
     }

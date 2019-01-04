@@ -67,6 +67,10 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void setData(final Activity activity, final MangaListRemoteModel item, final ActionsInterface actionsInterface){
             txtTitle_Cellthumb.setText(item.getName());
             GlideUtil.initGlide(activity, item.getCover(), imgThumb_Cellthumb);
+            if(item.isSaved()){
+                imgSave_Cellthumb.setImageDrawable(activity.getDrawable(R.drawable.saved_in));
+                imgSave_Cellthumb.setTag("selected");
+            }
 
             imgSave_Cellthumb.setOnClickListener(new View.OnClickListener() {
                 @Override

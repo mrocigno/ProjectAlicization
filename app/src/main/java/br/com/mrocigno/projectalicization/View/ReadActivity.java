@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
+import android.view.WindowManager;
 
 import javax.inject.Inject;
 
@@ -26,6 +28,9 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
         rcyPages_Read = findViewById(R.id.rcyPages_Read);
@@ -69,11 +74,13 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 
     @Override
     public void onBackPressed() {
-        ((PagesAdapter)rcyPages_Read.getAdapter()).setClear(true);
-        rcyPages_Read.getAdapter().notifyDataSetChanged();
-        rcyPages_Read.setAdapter(null);
-        rcyPages_Read.setLayoutManager(null);
-        rcyPages_Read = null;
+        if(rcyPages_Read != null){
+            ((PagesAdapter)rcyPages_Read.getAdapter()).setClear(true);
+            rcyPages_Read.getAdapter().notifyDataSetChanged();
+            rcyPages_Read.setAdapter(null);
+            rcyPages_Read.setLayoutManager(null);
+            rcyPages_Read = null;
+        }
         super.onBackPressed();
     }
 

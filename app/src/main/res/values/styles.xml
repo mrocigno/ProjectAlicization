@@ -27,10 +27,6 @@
         <item name="actionOverflowMenuStyle">@style/CMOptionsMenu</item>
     </style>
 
-    <style name="ReadActivityTheme" parent="AppTheme">
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
     <style name="SearchViewColors">
         <item name="android:textColorHint">?android:textColor</item>
         <item name="android:editTextColor">?android:textColor</item>

@@ -8,6 +8,7 @@ public class MangaListRemoteModel implements Serializable {
     String link;
     String cover;
     String genre;
+    boolean isSaved;
     int webid;
 
     public MangaListRemoteModel(String name, String link, String cover, String genre, int webid) {
@@ -56,5 +57,13 @@ public class MangaListRemoteModel implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
     }
 }

@@ -48,19 +48,16 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         LinearLayout lnlCell_Cellchapter;
 
         TextView txtTitle_Cellchapter;
-        TextView txtDate_Cellchapter;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 
             lnlCell_Cellchapter = itemView.findViewById(R.id.lnlCell_Cellchapter);
             txtTitle_Cellchapter = itemView.findViewById(R.id.txtTitle_Cellchapter);
-            txtDate_Cellchapter = itemView.findViewById(R.id.txtDate_Cellchapter);
         }
 
         public void setData(final ChapterMangaRemoteModel item, final ActionsChaptersAdapter actions){
             txtTitle_Cellchapter.setText(item.getChapterName());
-            txtDate_Cellchapter.setText(item.getChapterReleaseDate());
             lnlCell_Cellchapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

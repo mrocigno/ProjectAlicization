@@ -18,23 +18,4 @@
         android:text="TESTE"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Laçado em"/>
-
-        <TextView
-            android:id="@+id/txtDate_Cellchapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2015" />
-
-    </LinearLayout>
-
 </LinearLayout>

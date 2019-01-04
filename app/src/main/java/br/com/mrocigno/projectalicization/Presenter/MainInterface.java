@@ -8,8 +8,8 @@ import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 
 public interface MainInterface extends MyView {
-    void addList(BaseArrayDataRemoteModel<MangaListRemoteModel> response);
-    void addSearchList(BaseArrayDataRemoteModel<MangaListRemoteModel> response);
+    void addList(ArrayList<MangaListRemoteModel> response);
+    void addSearchList(ArrayList<MangaListRemoteModel> response);
     void addListSaves(ArrayList<Map<String, String>> itens);
     void setProgressbar(boolean visible);
 }

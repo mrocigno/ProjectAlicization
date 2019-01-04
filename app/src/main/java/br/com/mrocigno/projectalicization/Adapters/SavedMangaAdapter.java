@@ -1,17 +1,20 @@
 package br.com.mrocigno.projectalicization.Adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import br.com.mrocigno.projectalicization.R;
+import br.com.mrocigno.projectalicization.Services.DownloadServiceTest;
 import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 
 public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -50,8 +53,15 @@ public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             imgCover_Cellsaved = itemView.findViewById(R.id.imgCover_Cellsaved);
         }
 
-        public void setData(Activity activity, Map<String, String> item){
+        public void setData(final Activity activity, Map<String, String> item){
             GlideUtil.initGlide(activity, item.get("cover"), imgCover_Cellsaved);
+            imgCover_Cellsaved.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startService(new Intent(activity, DownloadServiceTest.class));
+                    Toast.makeText(activity, "service iniciado", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

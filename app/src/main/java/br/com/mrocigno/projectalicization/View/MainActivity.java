@@ -24,12 +24,14 @@ import br.com.mrocigno.projectalicization.Adapters.SavedMangaAdapter;
 import br.com.mrocigno.projectalicization.Adapters.SearchMangaAdapter;
 import br.com.mrocigno.projectalicization.Components.DaggerMainComponent;
 import br.com.mrocigno.projectalicization.Config.MyActivity;
+import br.com.mrocigno.projectalicization.Helpers.CustomGridLayoutManager;
 import br.com.mrocigno.projectalicization.Modules.MainModule;
 import br.com.mrocigno.projectalicization.Presenter.MainInterface;
 import br.com.mrocigno.projectalicization.Presenter.MainPresenter;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
+import br.com.mrocigno.projectalicization.Utils.Util;
 
 public class MainActivity extends MyActivity implements MainInterface, MangaThumbAdapter.ActionsInterface, SearchMangaAdapter.ActionsInterface {
 
@@ -89,17 +91,17 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
     }
 
     @Override
-    public void addList(BaseArrayDataRemoteModel<MangaListRemoteModel> response) {
-        MangaThumbAdapter mangaThumbAdapter = new MangaThumbAdapter(response.getData(), getActivity(), this);
-        GridLayoutManager glm = new GridLayoutManager(getActivity(), 2 , GridLayoutManager.VERTICAL, false);
+    public void addList(ArrayList<MangaListRemoteModel> response) {
+        MangaThumbAdapter mangaThumbAdapter = new MangaThumbAdapter(response, getActivity(), this);
+        CustomGridLayoutManager glm = new CustomGridLayoutManager(getActivity(), getResources().getDimensionPixelOffset(R.dimen.thumb_width), GridLayoutManager.VERTICAL, false);
         rcyMangas_Main.setLayoutManager(glm);
         rcyMangas_Main.setAdapter(mangaThumbAdapter);
     }
 
     @Override
-    public void addSearchList(BaseArrayDataRemoteModel<MangaListRemoteModel> response) {
+    public void addSearchList(ArrayList<MangaListRemoteModel> response) {
         if(!showSearchLoaded) return;
-        SearchMangaAdapter searchMangaAdapter = new SearchMangaAdapter(getActivity(), response.getData(), this);
+        SearchMangaAdapter searchMangaAdapter = new SearchMangaAdapter(getActivity(), response, this);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rcySearch_Main.setLayoutManager(llm);
         rcySearch_Main.setAdapter(searchMangaAdapter);

@@ -33,7 +33,8 @@ public abstract class MyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if(Preferences.getInstace(getActivity()).isDarkTheme()){
+        boolean darkTheme = Preferences.getInstace(getActivity()).isDarkTheme();
+        if(darkTheme){
             this.setTheme(R.style.AppThemeDark);
         }
 
@@ -83,8 +84,6 @@ public abstract class MyActivity extends AppCompatActivity {
             pgrBar_Deafult.setVisibility(View.GONE);
         }
 
-
-
         View v = getLayoutInflater().inflate(getLayoutRes(), null);
         defaultContainer.addView(v);
     }
@@ -123,6 +122,9 @@ public abstract class MyActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        if(Preferences.getInstace(getActivity()).isDarkTheme()){
+            menu.getItem(1).setTitle("Tema claro");
+        }
         return true;
     }
 
