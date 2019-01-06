@@ -2,10 +2,13 @@ package br.com.mrocigno.projectalicization.Model;
 
 import android.app.Activity;
 
+import java.util.ArrayList;
+
 import br.com.mrocigno.projectalicization.Config.MyModel;
 import br.com.mrocigno.projectalicization.Config.MyNetworkRoutes;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
+import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +36,7 @@ public class DetailsModel extends MyModel {
             }
         });
     }
+
 
     public interface MangaDetailsCallback{
         void onDetailsSuccess(MangaDetailsRemoteModel item);

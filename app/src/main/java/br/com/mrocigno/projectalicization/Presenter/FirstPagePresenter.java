@@ -12,40 +12,36 @@ import br.com.mrocigno.projectalicization.Model.MainModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import br.com.mrocigno.projectalicization.View.MainActivity;
 
-public class FirstPagePresenter implements FirstPageModel.MangaListCallback, FirstPageInterface.Presenter{
+public class FirstPagePresenter implements FirstPageModel.MangaListCallback{
 
     FirstPageModel model;
-    FirstPageInterface.View view;
+    FirstPageInterface view;
     MainInterface aView;
 
-    FirstPageModel teste;
-
-    public FirstPagePresenter(FirstPageInterface.View view, FirstPageModel model, MainInterface aView) {
+    public void setView(FirstPageInterface view) {
         this.view = view;
-        this.model = model;
-        this.aView = aView;
-        setUpListener();
     }
 
-    @Override
+    public FirstPagePresenter(FirstPageModel model, MainInterface aView) {
+        this.model = model;
+        this.aView = aView;
+    }
+
     public void loadData(){
         aView.setProgressbar(true);
         model.getMangaList("20","20", this);
         getSavedMangas();
     }
 
-    @Override
     public void getSavedMangas() {
         view.addListSaves(model.getSavedMangaList());
     }
 
-    @Override
     public void saveManga(MangaListRemoteModel item, boolean save){
         model.saveManga(item,save);
         getSavedMangas();
     }
 
-    @Override
     public boolean checkSaved(MangaListRemoteModel item){
         return model.checkIfIsSaved(item);
     }
@@ -61,8 +57,4 @@ public class FirstPagePresenter implements FirstPageModel.MangaListCallback, Fir
         aView.setProgressbar(false);
     }
 
-    @Override
-    public void setUpListener() {
-        view.setPresenter(this);
-    }
 }

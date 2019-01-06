@@ -2,7 +2,9 @@ package br.com.mrocigno.projectalicization.View;
 
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,21 +25,22 @@ import javax.inject.Inject;
 import br.com.mrocigno.projectalicization.Adapters.MangaThumbAdapter;
 import br.com.mrocigno.projectalicization.Adapters.SavedMangaAdapter;
 import br.com.mrocigno.projectalicization.Adapters.SearchMangaAdapter;
-import br.com.mrocigno.projectalicization.Config.MyFragment;
 import br.com.mrocigno.projectalicization.Helpers.CustomGridLayoutManager;
 import br.com.mrocigno.projectalicization.Model.FirstPageModel;
 import br.com.mrocigno.projectalicization.Presenter.FirstPageInterface;
 import br.com.mrocigno.projectalicization.Presenter.FirstPagePresenter;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
+import br.com.mrocigno.projectalicization.Services.DownloadServiceTest;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FirstPageFragment extends MyFragment<FirstPageInterface.Presenter> implements FirstPageInterface.View, MangaThumbAdapter.ActionsInterface, SearchMangaAdapter.ActionsInterface {
+public class FirstPageFragment extends Fragment implements FirstPageInterface, MangaThumbAdapter.ActionsInterface {
 
     RecyclerView rcyMangas_FPage;
     RecyclerView rcySavedMangas_FPage;
+    FirstPagePresenter presenter;
 
     CardView cardSaved_FPage;
 
@@ -45,9 +48,10 @@ public class FirstPageFragment extends MyFragment<FirstPageInterface.Presenter> 
         // Required empty public constructor
     }
 
-    public static FirstPageFragment newInstance() {
-        FirstPageFragment fragment = new FirstPageFragment();
-        return fragment;
+    public FirstPageFragment newInstance(FirstPagePresenter presenter) {
+        this.presenter = presenter;
+        this.presenter.setView(this);
+        return this;
     }
 
     View view;
@@ -57,20 +61,12 @@ public class FirstPageFragment extends MyFragment<FirstPageInterface.Presenter> 
         if(view == null){
             view = inflater.inflate(R.layout.fragment_first_page, container, false);
             initVars();
+
+            if(presenter != null)
+                presenter.loadData();
         }
 
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        presenter.loadData();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     private void initVars(){
@@ -81,24 +77,35 @@ public class FirstPageFragment extends MyFragment<FirstPageInterface.Presenter> 
 
     @Override
     public void addList(ArrayList<MangaListRemoteModel> response) {
-        MangaThumbAdapter mangaThumbAdapter = new MangaThumbAdapter(response, getActivity(), this);
-        CustomGridLayoutManager glm = new CustomGridLayoutManager(getActivity(), getResources().getDimensionPixelOffset(R.dimen.thumb_width), GridLayoutManager.VERTICAL, false);
-        rcyMangas_FPage.setLayoutManager(glm);
-        rcyMangas_FPage.setAdapter(mangaThumbAdapter);
+        if(isAdded()){
+            MangaThumbAdapter mangaThumbAdapter = new MangaThumbAdapter(response, getActivity(), this);
+            CustomGridLayoutManager glm = new CustomGridLayoutManager(getActivity(), getResources().getDimensionPixelOffset(R.dimen.thumb_width), GridLayoutManager.VERTICAL, false);
+            rcyMangas_FPage.setLayoutManager(glm);
+            rcyMangas_FPage.setAdapter(mangaThumbAdapter);
+        }
     }
 
 
     @Override
     public void addListSaves(ArrayList<Map<String, String>> itens) {
-        if(itens.size() > 0) {
-            cardSaved_FPage.setVisibility(View.VISIBLE);
-            SavedMangaAdapter savedMangaAdapter = new SavedMangaAdapter(getActivity(), itens);
-            LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-            rcySavedMangas_FPage.setLayoutManager(llm);
-            rcySavedMangas_FPage.setAdapter(savedMangaAdapter);
-        }else{
-            cardSaved_FPage.setVisibility(View.GONE);
+        if(isAdded()){
+            if(itens.size() > 0) {
+                cardSaved_FPage.setVisibility(View.VISIBLE);
+                SavedMangaAdapter savedMangaAdapter = new SavedMangaAdapter(getActivity(), itens);
+                LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                rcySavedMangas_FPage.setLayoutManager(llm);
+                rcySavedMangas_FPage.setAdapter(savedMangaAdapter);
+            }else{
+                cardSaved_FPage.setVisibility(View.GONE);
+            }
         }
+    }
+
+    @Override
+    public void onClickThumb(ActivityOptions options, MangaListRemoteModel item) {
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("manga", item);
+        getActivity().startActivity(intent, options.toBundle());
     }
 
     @Override
@@ -112,12 +119,8 @@ public class FirstPageFragment extends MyFragment<FirstPageInterface.Presenter> 
     }
 
     @Override
-    public Activity getActivityThumb() {
-        return getActivity();
-    }
+    public void onResume() {
+        super.onResume();
 
-    @Override
-    public Activity getActivitySearch() {
-        return getActivity();
     }
 }

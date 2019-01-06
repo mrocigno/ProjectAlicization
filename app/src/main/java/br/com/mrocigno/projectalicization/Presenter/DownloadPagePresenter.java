@@ -4,25 +4,21 @@ import android.widget.Toast;
 
 import br.com.mrocigno.projectalicization.Model.DownloadPageModel;
 
-public class DownloadPagePresenter implements DownloadPageInterface.Presenter {
+public class DownloadPagePresenter {
 
-    DownloadPageInterface.View view;
+    DownloadPageInterface view;
     DownloadPageModel model;
     MainInterface aView;
 
-    public DownloadPagePresenter(DownloadPageInterface.View view, DownloadPageModel model, MainInterface aView) {
+    public void setView(DownloadPageInterface view) {
         this.view = view;
+    }
+
+    public DownloadPagePresenter(DownloadPageModel model, MainInterface aView) {
         this.model = model;
         this.aView = aView;
-        setUpListener();
     }
 
-    @Override
-    public void setUpListener() {
-        view.setPresenter(this);
-    }
-
-    @Override
     public void loadData() {
         Toast.makeText(view.getActivity(), "TS", Toast.LENGTH_LONG).show();
     }

@@ -6,12 +6,21 @@ public class ChapterMangaRemoteModel {
     String chapterName;
     String chapterReleaseDate;
     String chapterLink;
+    boolean selected;
 
     public ChapterMangaRemoteModel(int chapterNumber, String chapterName, String chapterReleaseDate, String chapterLink) {
         this.chapterNumber = chapterNumber;
         this.chapterName = chapterName;
         this.chapterReleaseDate = chapterReleaseDate;
         this.chapterLink = chapterLink;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public int getChapterNumber() {

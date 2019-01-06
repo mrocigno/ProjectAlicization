@@ -40,8 +40,8 @@ public class MainModule {
 
     @Provides
     @Singleton
-    public FirstPageFragment getFirstPageFragment(){
-        return FirstPageFragment.newInstance();
+    public FirstPageFragment getFirstPageFragment(FirstPagePresenter presenter){
+        return new FirstPageFragment().newInstance(presenter);
     }
 
     @Provides
@@ -50,14 +50,14 @@ public class MainModule {
     }
 
     @Provides
-    public FirstPagePresenter getFirstPagePresenter(FirstPageFragment firstPageFragment,FirstPageModel model){
-        return new FirstPagePresenter(firstPageFragment, model, view);
+    public FirstPagePresenter getFirstPagePresenter(FirstPageModel model){
+        return new FirstPagePresenter(model, view);
     }
 
     @Provides
     @Singleton
-    public DownloadPageFragment getDownloadPageFragment(){
-        return DownloadPageFragment.newInstance();
+    public DownloadPageFragment getDownloadPageFragment(DownloadPagePresenter presenter){
+        return new DownloadPageFragment().newInstance(presenter);
     }
 
     @Provides
@@ -66,8 +66,8 @@ public class MainModule {
     }
 
     @Provides
-    public DownloadPagePresenter getDownloadPagePresenter(DownloadPageFragment downloadPageFragment, DownloadPageModel model){
-        return new DownloadPagePresenter(downloadPageFragment, model, view);
+    public DownloadPagePresenter getDownloadPagePresenter(DownloadPageModel model){
+        return new DownloadPagePresenter(model, view);
     }
 
 }

@@ -2,6 +2,7 @@ package br.com.mrocigno.projectalicization.Config;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,7 @@ public abstract class MyActivity extends AppCompatActivity {
 
     public String TAG = "TESTEEE";
 
-    FloatingActionButton fabBtn_Default;
+    public FloatingActionButton fabBtn_Default;
     FrameLayout defaultContainer;
     Toolbar toolbar;
     ProgressBar pgrBar_Deafult;
@@ -168,7 +169,6 @@ public abstract class MyActivity extends AppCompatActivity {
             srvSearch_Default.setQuery("", false);
             srvSearch_Default.setIconified(true);
         }else{
-//            finish();
             super.onBackPressed();
         }
     }
@@ -185,13 +185,18 @@ public abstract class MyActivity extends AppCompatActivity {
     }
 
     @SuppressLint("RestrictedApi")
-    public void showFab(boolean show){
+    public void showFab(boolean show, Drawable drawable){
         fabBtn_Default.setVisibility(show? View.VISIBLE: View.GONE);
+        fabBtn_Default.setImageDrawable(drawable);
+        fabBtn_Default.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickFab();
+            }
+        });
     }
 
-    public void setPresenter(Object presenter) {
-
-    }
+    public void onClickFab(){}
 
     public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId, String tag) {
         if (!fragment.isAdded()) {

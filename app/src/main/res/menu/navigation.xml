@@ -6,10 +6,21 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
+
+    <item
+        android:id="@+id/navigation_saved"
+        android:icon="@drawable/ic_saved_in"
+        android:title="Busca" />
+
     <item
         android:id="@+id/navigation_download"
         android:icon="@drawable/ic_file_download"
         android:title="Downloads" />
+
+    <item
+        android:id="@+id/navigation_plus"
+        android:icon="@drawable/ic_menu"
+        android:title="Mais" />
 
     <!--<item-->
         <!--android:id="@+id/navigation_notifications"-->

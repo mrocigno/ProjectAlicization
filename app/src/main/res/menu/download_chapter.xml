@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/actionmode_download"
+        android:icon="@drawable/ic_file_download_theme"
+        android:title="Downloads" />
+</menu>

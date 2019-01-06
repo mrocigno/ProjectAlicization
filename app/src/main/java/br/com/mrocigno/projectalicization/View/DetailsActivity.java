@@ -4,16 +4,24 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -24,8 +32,10 @@ import br.com.mrocigno.projectalicization.Modules.DetailsModule;
 import br.com.mrocigno.projectalicization.Presenter.DetailsInterface;
 import br.com.mrocigno.projectalicization.Presenter.DetailsPresenter;
 import br.com.mrocigno.projectalicization.R;
+import br.com.mrocigno.projectalicization.RemoteModels.ChapterMangaRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
+import br.com.mrocigno.projectalicization.Services.DownloadServiceTest;
 import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 
 public class DetailsActivity extends MyActivity implements DetailsInterface, ChaptersAdapter.ActionsChaptersAdapter {
@@ -58,7 +68,6 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         super.onCreate(savedInstanceState);
 
         initDagger();
-
         initVars();
 
         Intent intent = getIntent();
@@ -83,6 +92,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         imgSave_Details = findViewById(R.id.imgSave_Details);
         pgrBar_Details = findViewById(R.id.pgrBar_Details);
         rcyChapters_Details = findViewById(R.id.rcyChapters_Details);
+        showFab(true, getDrawable(R.drawable.ic_file_download));
 
         imgSave_Details.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +145,6 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
         ChaptersAdapter chaptersAdapter = new ChaptersAdapter(item.getChapters(), this, getActivity());
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        GridLayoutManager glm = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
         rcyChapters_Details.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -153,11 +162,88 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         pgrBar_Details.setVisibility(visible? View.VISIBLE: View.INVISIBLE);
     }
 
-    @Override
-    public void onChapterClick(String link) {
-        Intent intent = new Intent(getActivity(), ReadActivity.class);
-        intent.putExtra("link", link);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    public int refreshActionMode(){
+        int nums = ((ChaptersAdapter) rcyChapters_Details.getAdapter()).getSelectedItens().size();
+        actionMode.setTitle(nums + " selecionado" + (nums > 1? "s":""));
+        return nums;
     }
+
+    @Override
+    public void onChapterClick(String link, boolean multSelect) {
+        if(multSelect && actionMode != null){
+            int nums = refreshActionMode();
+            if(nums == 0)
+                actionMode.finish();
+        }else{
+            Intent intent = new Intent(getActivity(), ReadActivity.class);
+            intent.putExtra("link", link);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        }
+    }
+
+    @Override
+    public void onLongClick() {
+        openMultselect();
+        refreshActionMode();
+    }
+
+    @Override
+    public void onClickFab() {
+        super.onClickFab();
+        if(fabBtn_Default.getTag() == null || fabBtn_Default.getTag() == "unselected"){
+            openMultselect();
+        }else if(fabBtn_Default.getTag() != null && fabBtn_Default.getTag() == "selected"){
+            actionMode.finish();
+        }
+    }
+
+    private void closeMultselect() {
+        fabBtn_Default.setImageDrawable(getDrawable(R.drawable.ic_file_download));
+        ((ChaptersAdapter) rcyChapters_Details.getAdapter()).setMultiSelect(false);
+        fabBtn_Default.setTag("unselected");
+        rcyChapters_Details.getAdapter().notifyDataSetChanged();
+    }
+
+    private void openMultselect() {
+        fabBtn_Default.setImageDrawable(getDrawable(R.drawable.ic_close));
+        ((ChaptersAdapter) rcyChapters_Details.getAdapter()).setMultiSelect(true);
+        fabBtn_Default.setTag("selected");
+        actionMode = startActionMode(mActionModeCallback);
+        rcyChapters_Details.getAdapter().notifyDataSetChanged();
+    }
+
+
+    ActionMode actionMode;
+    Menu context_menu;
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.download_chapter, menu);
+            context_menu = menu;
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            if(item.getItemId() == R.id.actionmode_download){
+
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            closeMultselect();
+        }
+    };
 
 }

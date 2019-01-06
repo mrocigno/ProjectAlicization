@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        android:background="?colorControlNormal"
+        android:background="?colorPrimary"
         app:itemIconTint="?android:textColor"
         app:menu="@menu/navigation"/>
 

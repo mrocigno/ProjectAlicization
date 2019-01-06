@@ -92,23 +92,19 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             cardCell_Cellthumb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(actionsInterface.getActivityThumb(), DetailsActivity.class);
-                    intent.putExtra("manga", item);
-                    // create the transition animation - the images in the layouts
-                    // of both activities are defined with android:transitionName="robot"
-                    ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(actionsInterface.getActivityThumb(), Pair.create((View)imgThumb_Cellthumb, "cover"), Pair.create((View)txtTitle_Cellthumb, "title"), Pair.create((View)imgSave_Cellthumb, "save"));
-
-                    // start the new activity
-                    actionsInterface.getActivityThumb().startActivity(intent, options.toBundle());
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                            Pair.create((View)imgThumb_Cellthumb, "cover"),
+                            Pair.create((View)txtTitle_Cellthumb, "title"),
+                            Pair.create((View)imgSave_Cellthumb, "save"));
+                    actionsInterface.onClickThumb(options, item);
                 }
             });
         }
     }
 
     public interface ActionsInterface{
+        void onClickThumb(ActivityOptions options, MangaListRemoteModel item);
         void onClickSaveButton(MangaListRemoteModel item, boolean save);
         boolean verifieIfSaved(MangaListRemoteModel item);
-        Activity getActivityThumb();
     }
 }
