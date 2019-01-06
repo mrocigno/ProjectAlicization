@@ -48,7 +48,7 @@ public class SearchMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return itens.size();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder{
+    private class AdapterViewHolder extends RecyclerView.ViewHolder{
         TextView txtTitle_Cellsearch;
         ImageView imgThumb_Cellsearch;
         LinearLayout lnlCell_Cellsearch;

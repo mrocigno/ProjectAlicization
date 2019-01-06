@@ -1,6 +1,7 @@
 package br.com.mrocigno.projectalicization.Presenter;
 
 import br.com.mrocigno.projectalicization.Model.ReadModel;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
 
 public class ReadPresenter implements ReadModel.DataCallback {

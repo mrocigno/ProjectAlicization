@@ -1,8 +1,6 @@
 package br.com.mrocigno.projectalicization.Model;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -15,26 +13,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainModel extends MyModel {
+public class FirstPageModel extends MyModel {
 
-    Activity activity;
-    public MainModel(Activity activity) {
+    public FirstPageModel(Activity activity) {
         super(activity);
-        this.activity = activity;
     }
 
-
-
-    public void searchManga(String name, final MangaSearchCallback callback){
-        getRetrofit().create(MyNetworkRoutes.class).searchMangas(name).enqueue(new Callback<BaseArrayDataRemoteModel<MangaListRemoteModel>>() {
+    public void getMangaList(String page, String limit, final FirstPageModel.MangaListCallback callback){
+        getRetrofit().create(MyNetworkRoutes.class).getListMangas(page, limit).enqueue(new Callback<BaseArrayDataRemoteModel<MangaListRemoteModel>>() {
             @Override
             public void onResponse(Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> call, Response<BaseArrayDataRemoteModel<MangaListRemoteModel>> response) {
-                callback.onSearchSuccess(response.body().getData());
+                callback.onSuccess(response.body().getData());
             }
 
             @Override
             public void onFailure(Call<BaseArrayDataRemoteModel<MangaListRemoteModel>> call, Throwable t) {
-                callback.onSearchError(t);
+                callback.onError(t);
             }
         });
     }
@@ -47,8 +41,8 @@ public class MainModel extends MyModel {
         return getLocalData().query("SELECT * FROM saved_mangas WHERE saved = 1", null);
     }
 
-    public interface MangaSearchCallback{
-        void onSearchSuccess(ArrayList<MangaListRemoteModel> response);
-        void onSearchError(Throwable t);
+    public interface MangaListCallback{
+        void onSuccess(ArrayList<MangaListRemoteModel> response);
+        void onError(Throwable t);
     }
 }

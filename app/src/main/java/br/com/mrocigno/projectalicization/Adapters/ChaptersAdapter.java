@@ -43,7 +43,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return itens.size();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder {
+    private class AdapterViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout lnlCell_Cellchapter;
 

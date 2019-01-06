@@ -48,7 +48,7 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return itens.size();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder{
+    private class AdapterViewHolder extends RecyclerView.ViewHolder{
         TextView txtTitle_Cellthumb;
         ImageView imgThumb_Cellthumb;
         ImageView imgSave_Cellthumb;
@@ -67,7 +67,9 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void setData(final Activity activity, final MangaListRemoteModel item, final ActionsInterface actionsInterface){
             txtTitle_Cellthumb.setText(item.getName());
             GlideUtil.initGlide(activity, item.getCover(), imgThumb_Cellthumb);
-            if(item.isSaved()){
+
+            if(actionsInterface.verifieIfSaved(item)){
+                item.setSaved(true);
                 imgSave_Cellthumb.setImageDrawable(activity.getDrawable(R.drawable.saved_in));
                 imgSave_Cellthumb.setTag("selected");
             }
@@ -106,6 +108,7 @@ public class MangaThumbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public interface ActionsInterface{
         void onClickSaveButton(MangaListRemoteModel item, boolean save);
+        boolean verifieIfSaved(MangaListRemoteModel item);
         Activity getActivityThumb();
     }
 }

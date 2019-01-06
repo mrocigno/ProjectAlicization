@@ -4,67 +4,93 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.inject.Inject;
 
-import br.com.mrocigno.projectalicization.Adapters.MangaThumbAdapter;
-import br.com.mrocigno.projectalicization.Adapters.SavedMangaAdapter;
 import br.com.mrocigno.projectalicization.Adapters.SearchMangaAdapter;
+import br.com.mrocigno.projectalicization.Adapters.ViewPagerAdapter;
 import br.com.mrocigno.projectalicization.Components.DaggerMainComponent;
 import br.com.mrocigno.projectalicization.Config.MyActivity;
-import br.com.mrocigno.projectalicization.Helpers.CustomGridLayoutManager;
 import br.com.mrocigno.projectalicization.Modules.MainModule;
+import br.com.mrocigno.projectalicization.Presenter.DownloadPagePresenter;
+import br.com.mrocigno.projectalicization.Presenter.FirstPagePresenter;
 import br.com.mrocigno.projectalicization.Presenter.MainInterface;
 import br.com.mrocigno.projectalicization.Presenter.MainPresenter;
 import br.com.mrocigno.projectalicization.R;
-import br.com.mrocigno.projectalicization.RemoteModels.BaseArrayDataRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
-import br.com.mrocigno.projectalicization.Utils.Util;
 
-public class MainActivity extends MyActivity implements MainInterface, MangaThumbAdapter.ActionsInterface, SearchMangaAdapter.ActionsInterface {
+public class MainActivity extends MyActivity implements MainInterface, SearchMangaAdapter.ActionsInterface {
 
     @Inject
     MainPresenter presenter;
 
-    RecyclerView rcyMangas_Main;
-    RecyclerView rcySavedMangas_Main;
+    @Inject FirstPageFragment firstPageFragment;
+    @Inject DownloadPageFragment downloadPageFragment;
+
+    @Inject FirstPagePresenter firstPagePresenter;
+    @Inject DownloadPagePresenter downloadPagePresenter;
+
     RecyclerView rcySearch_Main;
 
     FrameLayout frmBlack_Main;
 
-    CardView cardSaved_Main;
+    BottomNavigationView bnvMain_Main;
 
-    boolean showSearchLoaded = true;
+    boolean showSearchLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-
         super.onCreate(savedInstanceState);
-
-        initDagger();
         initVars();
-
-        presenter.loadData();
+        if(savedInstanceState == null){
+            addFragmentToActivity(getSupportFragmentManager(), firstPageFragment, R.id.frmContainer_Main, "pg1");
+        }else{
+            removeFragmentToActivity(getSupportFragmentManager());
+//            getSupportFragmentManager().beginTransaction().
+//                    remove(getSupportFragmentManager().findFragmentById(R.id.frmContainer_Main)).commit();
+            addFragmentToActivity(getSupportFragmentManager(), firstPageFragment, R.id.frmContainer_Main, "pg1");
+        }
     }
 
     private void initVars(){
-        rcyMangas_Main = findViewById(R.id.rcyMangas_Main);
-        rcySavedMangas_Main = findViewById(R.id.rcySavedMangas_Main);
+        initDagger();
+        downloadPageFragment.presenter.setUpListener();
+
         rcySearch_Main = findViewById(R.id.rcySearch_Main);
-        cardSaved_Main = findViewById(R.id.cardSaved_Main);
+
+        bnvMain_Main = findViewById(R.id.bnvMain_Main);
+        bnvMain_Main.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.navigation_home:{
+                        switchFragment(firstPageFragment, "pg1");
+                        return true;
+                    }
+                    case R.id.navigation_download:{
+                        switchFragment(downloadPageFragment, "pg2");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         frmBlack_Main = findViewById(R.id.frmBlack_Main);
         frmBlack_Main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +101,17 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
         });
     }
 
+    private void switchFragment(Fragment fragment, String tag) {
+        FragmentManager manager = getSupportFragmentManager();
+        if(manager.findFragmentByTag(tag) == null){
+            addFragmentToActivity(manager, fragment, R.id.frmContainer_Main, tag);
+        }else{
+            showFragmentToActivity(manager, fragment);
+        }
+    }
+
     private void initDagger() {
-        DaggerMainComponent.builder().mainModule(new MainModule(this, getActivity())).build().inject(this);
+        DaggerMainComponent.builder().mainModule(new MainModule(this)).build().inject(this);
     }
 
     @Override
@@ -90,13 +125,6 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
-    @Override
-    public void addList(ArrayList<MangaListRemoteModel> response) {
-        MangaThumbAdapter mangaThumbAdapter = new MangaThumbAdapter(response, getActivity(), this);
-        CustomGridLayoutManager glm = new CustomGridLayoutManager(getActivity(), getResources().getDimensionPixelOffset(R.dimen.thumb_width), GridLayoutManager.VERTICAL, false);
-        rcyMangas_Main.setLayoutManager(glm);
-        rcyMangas_Main.setAdapter(mangaThumbAdapter);
-    }
 
     @Override
     public void addSearchList(ArrayList<MangaListRemoteModel> response) {
@@ -108,32 +136,8 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
     }
 
     @Override
-    public void addListSaves(ArrayList<Map<String, String>> itens) {
-        if(itens.size() > 0) {
-            cardSaved_Main.setVisibility(View.VISIBLE);
-            SavedMangaAdapter savedMangaAdapter = new SavedMangaAdapter(getActivity(), itens);
-            LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-            rcySavedMangas_Main.setLayoutManager(llm);
-            rcySavedMangas_Main.setAdapter(savedMangaAdapter);
-        }else{
-            cardSaved_Main.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
     public void setProgressbar(boolean visible) {
         setProgressbarVisible(visible);
-    }
-
-    @Override
-    public void onClickSaveButton(MangaListRemoteModel item, boolean save) {
-        presenter.saveManga(item, save);
-    }
-
-
-    @Override
-    public Activity getActivityThumb() {
-        return super.getActivity();
     }
 
     @Override
@@ -171,4 +175,6 @@ public class MainActivity extends MyActivity implements MainInterface, MangaThum
             presenter.searchManga(s);
         }
     }
+
+
 }

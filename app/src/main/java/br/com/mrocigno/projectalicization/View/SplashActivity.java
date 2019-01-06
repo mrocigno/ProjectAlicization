@@ -44,4 +44,9 @@ public class SplashActivity extends AppCompatActivity implements SplashInterface
     public Activity getActivity() {
         return null;
     }
+
+    @Override
+    public void setPresenter(Object presenter) {
+
+    }
 }

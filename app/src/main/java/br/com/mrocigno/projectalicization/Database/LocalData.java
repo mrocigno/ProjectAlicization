@@ -25,6 +25,29 @@ public class LocalData extends SQLiteOpenHelper {
                             {"cover", "text"},
                             {"saved", "integer"},
                             {"webid", "integer"}
+                    },
+                    {
+                            {"downloaded_mangas", "table"},
+                            {"id", "integer primary key autoincrement"},
+                            {"name", "text"},
+                            {"link", "text"},
+                            {"cover", "text"},
+                            {"webid", "integer"}
+                    },
+                    {
+                            {"downloaded_chapters", "table"},
+                            {"id", "integer primary key autoincrement"},
+                            {"name", "text"},
+                            {"num", "integer"},
+                            {"link", "text"},
+                            {"id_manga", "integer"}
+                    },
+                    {
+                            {"downloaded_pages", "table"},
+                            {"id", "integer primary key autoincrement"},
+                            {"id_chapter", "integer"},
+                            {"link_page", "text"},
+                            {"num_page", "integer"}
                     }
             };
     private static final int VERSAO = 1;
@@ -36,8 +59,6 @@ public class LocalData extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String SQL = "";
-
         for(String[][] tables:tbls){
             String createSQL = "";
             for(String[] columns:tables){
@@ -49,24 +70,27 @@ public class LocalData extends SQLiteOpenHelper {
             }
             createSQL = createSQL.substring(0, createSQL.length() -  2) + ");";
 
-            SQL += createSQL + "\n";
+            Log.e("TESTEEE", createSQL);
+
+            db.beginTransaction();
+            try {
+                execute(db, createSQL);
+                db.setTransactionSuccessful();
+            } catch (Exception e) {
+
+            } finally {
+                db.endTransaction();
+            }
         }
 
-        Log.e("TESTEEE", SQL);
-
-        db.beginTransaction();
-        try {
-            execute(db, SQL);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-        } finally {
-            db.endTransaction();
-        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS saved_mangas");
+        db.execSQL("DROP TABLE IF EXISTS downloaded_mangas");
+        db.execSQL("DROP TABLE IF EXISTS downloaded_chapters");
+        db.execSQL("DROP TABLE IF EXISTS downloaded_pages");
         onCreate(db);
     }
 

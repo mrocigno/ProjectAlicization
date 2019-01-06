@@ -1,9 +1,11 @@
 package br.com.mrocigno.projectalicization.Adapters;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import br.com.mrocigno.projectalicization.R;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import br.com.mrocigno.projectalicization.Services.DownloadServiceTest;
+import br.com.mrocigno.projectalicization.Utils.DialogUtil;
 import br.com.mrocigno.projectalicization.Utils.GlideUtil;
+import br.com.mrocigno.projectalicization.View.DetailsActivity;
 
 public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -43,7 +48,7 @@ public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return itens.size();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder {
+    private class AdapterViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgCover_Cellsaved;
 
@@ -53,13 +58,15 @@ public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             imgCover_Cellsaved = itemView.findViewById(R.id.imgCover_Cellsaved);
         }
 
-        public void setData(final Activity activity, Map<String, String> item){
+        public void setData(final Activity activity, final Map<String, String> item){
             GlideUtil.initGlide(activity, item.get("cover"), imgCover_Cellsaved);
             imgCover_Cellsaved.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startService(new Intent(activity, DownloadServiceTest.class));
-                    Toast.makeText(activity, "service iniciado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(activity, DetailsActivity.class);
+                    intent.putExtra("manga", new MangaListRemoteModel(item.get("name"), item.get("link"), item.get("cover"), item.get("genre"), Integer.parseInt(item.get("webid"))));
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, imgCover_Cellsaved, "cover");
+                    activity.startActivity(intent, options.toBundle());
                 }
             });
         }

@@ -3,8 +3,12 @@ package br.com.mrocigno.projectalicization.Config;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -184,4 +188,42 @@ public abstract class MyActivity extends AppCompatActivity {
     public void showFab(boolean show){
         fabBtn_Default.setVisibility(show? View.VISIBLE: View.GONE);
     }
+
+    public void setPresenter(Object presenter) {
+
+    }
+
+    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId, String tag) {
+        if (!fragment.isAdded()) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(frameId, fragment, tag);
+            transaction.commit();
+        }
+    }
+
+    public static void showFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
+//        if (!fragment.isAdded()) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.show(fragment);
+            for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+                if(fragmentManager.getFragments().get(i) != fragment) {
+                    transaction.hide(fragmentManager.getFragments().get(i));
+                }
+            }
+            transaction.commit();
+//        }
+    }
+
+    public static void removeFragmentToActivity(@NonNull FragmentManager fragmentManager) {
+//        if (!fragment.isAdded()) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+            transaction.remove(fragmentManager.getFragments().get(i));
+        }
+        transaction.commit();
+//        }
+    }
+
+
+
 }

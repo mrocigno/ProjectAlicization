@@ -49,6 +49,8 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
     RecyclerView rcyChapters_Details;
 
+    MangaListRemoteModel item;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -57,6 +59,18 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
         initDagger();
 
+        initVars();
+
+        Intent intent = getIntent();
+        if(intent.hasExtra("manga")){
+            item = (MangaListRemoteModel) intent.getSerializableExtra("manga");
+            presenter.loadData(item);
+        }else{
+            finish();
+        }
+    }
+
+    private void initVars() {
         txtTitle_Details = findViewById(R.id.txtTitle_Details);
         txtDescription_Details = findViewById(R.id.txtDescription_Details);
         txtYear_Details = findViewById(R.id.txtYear_Details);
@@ -65,20 +79,17 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         txtGenre_Details = findViewById(R.id.txtGenre_Details);
         txtStatus_Details = findViewById(R.id.txtStatus_Details);
         txtAutor_Details = findViewById(R.id.txtAutor_Details);
-
         imgCover_Details = findViewById(R.id.imgCover_Details);
         imgSave_Details = findViewById(R.id.imgSave_Details);
-
         pgrBar_Details = findViewById(R.id.pgrBar_Details);
-
         rcyChapters_Details = findViewById(R.id.rcyChapters_Details);
 
-        Intent intent = getIntent();
-        if(intent.hasExtra("manga")){
-            presenter.loadData(intent);
-        }else{
-            finish();
-        }
+        imgSave_Details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.saveManga(item, imgSave_Details.getTag().equals("unselected"));
+            }
+        });
     }
 
     private void initDagger() {

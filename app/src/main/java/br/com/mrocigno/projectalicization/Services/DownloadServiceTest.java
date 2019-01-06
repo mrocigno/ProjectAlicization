@@ -9,6 +9,8 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import br.com.mrocigno.projectalicization.Utils.DialogUtil;
+
 public class DownloadServiceTest extends Service {
 
     @Override
@@ -29,8 +31,8 @@ public class DownloadServiceTest extends Service {
             @Override
             public void run() {
                 Log.e("TESTEEE", "run: ");
-                loop();
+                DialogUtil.inflateLayoutDialog(getBaseContext(), "Mensgem top", "btn ok", true, null);
             }
-        }, 1000);
+        }, 5000);
     }
 }

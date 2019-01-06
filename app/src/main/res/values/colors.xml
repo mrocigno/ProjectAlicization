@@ -8,6 +8,6 @@
     <color name="gray">#e1e0e0</color>
     <color name="darkColorPrimary">#333333</color>
     <color name="darkColorPrimaryDark">#333333</color>
-    <color name="dividerWhiteBack">#e6e6e6</color>
+    <color name="dividerWhiteBack">#ededed</color>
     <color name="dividerBlackBack">#404040</color>
 </resources>

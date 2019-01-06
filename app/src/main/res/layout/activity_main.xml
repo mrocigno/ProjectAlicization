@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,89 +7,108 @@
     android:animateLayoutChanges="true"
     tools:context=".View.MainActivity">
 
-    <android.support.v4.widget.NestedScrollView
+
+    <FrameLayout
+        android:id="@+id/frmContainer_Main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:divider="@drawable/divider"
-            android:orientation="vertical"
-            android:showDividers="middle">
+    </FrameLayout>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardSaved_Main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?colorPrimary"
-                app:cardCornerRadius="1dp"
-                app:cardElevation="1dp">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:animateLayoutChanges="true"-->
+            <!--android:divider="@drawable/divider"-->
+            <!--android:orientation="vertical"-->
+            <!--android:showDividers="middle">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Seus mangas salvos"
-                        android:textColor="?android:textColor"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:id="@+id/cardSaved_Main"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:cardBackgroundColor="?colorPrimary"-->
+                <!--app:cardCornerRadius="1dp"-->
+                <!--app:cardElevation="1dp">-->
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rcySavedMangas_Main"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false" />
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical">-->
 
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="20dp"-->
+                        <!--android:text="Seus mangas salvos"-->
+                        <!--android:textColor="?android:textColor"-->
+                        <!--android:textSize="16dp"-->
+                        <!--android:textStyle="bold" />-->
 
-            </android.support.v7.widget.CardView>
+                    <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/rcySavedMangas_Main"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:nestedScrollingEnabled="false" />-->
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?colorPrimary"
-                app:cardCornerRadius="1dp"
-                app:cardElevation="1dp">
+                <!--</LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <!--</android.support.v7.widget.CardView>-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Sugestões"
-                        android:textColor="?android:textColor"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:cardBackgroundColor="?colorPrimary"-->
+                <!--app:cardCornerRadius="1dp"-->
+                <!--app:cardElevation="1dp">-->
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rcyMangas_Main"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="15dp" />
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical">-->
 
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="20dp"-->
+                        <!--android:text="Lista completa"-->
+                        <!--android:textColor="?android:textColor"-->
+                        <!--android:textSize="16dp"-->
+                        <!--android:textStyle="bold" />-->
 
-            </android.support.v7.widget.CardView>
+                    <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/rcyMangas_Main"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:nestedScrollingEnabled="false"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:paddingBottom="15dp" />-->
 
-        </LinearLayout>
+                <!--</LinearLayout>-->
 
-    </android.support.v4.widget.NestedScrollView>
+            <!--</android.support.v7.widget.CardView>-->
+
+        <!--</LinearLayout>-->
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnvMain_Main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        android:background="?colorControlNormal"
+        app:itemIconTint="?android:textColor"
+        app:menu="@menu/navigation"/>
 
     <FrameLayout
         android:id="@+id/frmBlack_Main"
@@ -113,4 +132,4 @@
 
     </FrameLayout>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

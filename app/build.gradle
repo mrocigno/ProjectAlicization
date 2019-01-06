@@ -40,7 +40,7 @@ dependencies {
 
     implementation 'com.github.chrisbanes:PhotoView:2.1.2'
 
-    implementation ('com.squareup.picasso:picasso:2.71828'){
+    implementation('com.squareup.picasso:picasso:2.71828') {
         exclude group: "com.android.support"
     }
 

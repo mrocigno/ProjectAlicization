@@ -18,12 +18,16 @@ public class DetailsPresenter implements DetailsModel.MangaDetailsCallback {
         this.model = model;
     }
 
-    public void loadData(Intent intent){
-        MangaListRemoteModel item = (MangaListRemoteModel) intent.getSerializableExtra("manga");
+    public void loadData(MangaListRemoteModel item){
         view.setProgressbar(true);
         view.addImediateData(item);
         view.setSaved(model.isSaved(item.getWebid()));
         model.getMangaDetails(item.getLink(), this);
+    }
+
+    public void saveManga(MangaListRemoteModel item, boolean save){
+        model.saveManga(item, save);
+        view.setSaved(save);
     }
 
     @Override

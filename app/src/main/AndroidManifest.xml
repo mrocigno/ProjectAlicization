@@ -15,22 +15,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <!--Activities-->
+        <!-- Activities -->
         <activity
             android:name=".View.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".View.MainActivity" />
         <activity android:name=".View.DetailsActivity" />
-        <activity android:name=".View.ReadActivity"/>
+        <activity android:name=".View.ReadActivity" />
 
-        <!--Services-->
-        <service android:name=".Services.DownloadServiceTest"/>
+        <!-- Services -->
+        <service android:name=".Services.DownloadServiceTest" />
+
     </application>
 
 </manifest>

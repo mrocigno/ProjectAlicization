@@ -55,7 +55,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return itens.size();
     }
 
-    public class AdapterViewHolder extends RecyclerView.ViewHolder {
+    private class AdapterViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgPage_Cellpage;
 
