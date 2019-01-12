@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -74,6 +75,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         initDagger();
         initVars();
         showSearchView(false);
+        setScrollFlag();
 
         Intent intent = getIntent();
         if(intent.hasExtra("manga")){
