@@ -22,8 +22,8 @@ public class ReadModel extends MyModel {
         this.activity = activity;
     }
 
-    public void loadData(String link, final DataCallback callback){
-        getRetrofit().create(MyNetworkRoutes.class).getPagesData(link).enqueue(new Callback<BaseRemoteModel<PagesDataRemoteModel>>() {
+    public void loadData(int id, final DataCallback callback){
+        getRetrofit().create(MyNetworkRoutes.class).getPagesData(id).enqueue(new Callback<BaseRemoteModel<PagesDataRemoteModel>>() {
             @Override
             public void onResponse(Call<BaseRemoteModel<PagesDataRemoteModel>> call, Response<BaseRemoteModel<PagesDataRemoteModel>> response) {
                 callback.onDataSuccess(response.body().getData());

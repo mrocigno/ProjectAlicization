@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,8 @@ public class DownloadPageFragment extends Fragment implements DownloadPageInterf
 
     RecyclerView rcyDownloads_Download;
     DownloadPagePresenter presenter;
+    LinearLayout lnlDownloadsMsg_Download;
+    TextView txtTitle_Download;
 
     public DownloadPageFragment newInstance(DownloadPagePresenter presenter) {
         this.presenter = presenter;
@@ -45,27 +50,24 @@ public class DownloadPageFragment extends Fragment implements DownloadPageInterf
         if(view == null){
             view = inflater.inflate(R.layout.fragment_download_page, container, false);
             rcyDownloads_Download = view.findViewById(R.id.rcyDownloads_Download);
-
-            ArrayList<MangaListRemoteModel> list = new ArrayList<>();
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-            list.add(new MangaListRemoteModel("TESTE", "TESTE","https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png", "dasd", 0));
-
-            MangaThumbAdapter adapter = new MangaThumbAdapter(list, getActivity(), this);
-            CustomGridLayoutManager lm = new CustomGridLayoutManager(getActivity(), getResources().getDimensionPixelOffset(R.dimen.thumb_width), LinearLayoutManager.VERTICAL, false);
-            rcyDownloads_Download.setLayoutManager(lm);
-            rcyDownloads_Download.setAdapter(adapter);
+            lnlDownloadsMsg_Download = view.findViewById(R.id.lnlDownloadsMsg_Download);
+            txtTitle_Download = view.findViewById(R.id.txtTitle_Download);
 
             if(presenter != null)
                 presenter.loadData();
         }
 
         return view;
+    }
+
+    @Override
+    public void addDownloadedMangasList(ArrayList<MangaListRemoteModel> list) {
+        MangaThumbAdapter adapter = new MangaThumbAdapter(list, getActivity(), this);
+        CustomGridLayoutManager layoutManager = new CustomGridLayoutManager(getActivity(), getResources().getDimensionPixelOffset(R.dimen.thumb_width), GridLayoutManager.VERTICAL, false);
+        rcyDownloads_Download.setLayoutManager(layoutManager);
+        rcyDownloads_Download.setAdapter(adapter);
+        lnlDownloadsMsg_Download.setVisibility(View.GONE);
+        txtTitle_Download.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -82,5 +84,6 @@ public class DownloadPageFragment extends Fragment implements DownloadPageInterf
     public boolean verifieIfSaved(MangaListRemoteModel item) {
         return false;
     }
+
 
 }

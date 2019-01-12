@@ -3,10 +3,12 @@ package br.com.mrocigno.projectalicization.Model;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import br.com.mrocigno.projectalicization.Config.MyModel;
 import br.com.mrocigno.projectalicization.Config.MyNetworkRoutes;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseRemoteModel;
+import br.com.mrocigno.projectalicization.RemoteModels.DownloadMangaRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
 import retrofit2.Call;
@@ -23,8 +25,8 @@ public class DetailsModel extends MyModel {
         return getLocalData().checkIfThereIs("saved_mangas", "saved = 1 and webid = "+ webid);
     }
 
-    public void getMangaDetails(String link, final MangaDetailsCallback callback){
-        getRetrofit().create(MyNetworkRoutes.class).getMangaDetails(link).enqueue(new Callback<BaseRemoteModel<MangaDetailsRemoteModel>>() {
+    public void getMangaDetails(int id, final MangaDetailsCallback callback){
+        getRetrofit().create(MyNetworkRoutes.class).getMangaDetails(id).enqueue(new Callback<BaseRemoteModel<MangaDetailsRemoteModel>>() {
             @Override
             public void onResponse(Call<BaseRemoteModel<MangaDetailsRemoteModel>> call, Response<BaseRemoteModel<MangaDetailsRemoteModel>> response) {
                 callback.onDetailsSuccess(response.body().getData());
@@ -37,10 +39,28 @@ public class DetailsModel extends MyModel {
         });
     }
 
+    public void prepareDownload(String ids, final DownloadCallback callback){
+        getRetrofit().create(MyNetworkRoutes.class).getDownloadPages(ids).enqueue(new Callback<BaseRemoteModel<DownloadMangaRemoteModel>>() {
+            @Override
+            public void onResponse(Call<BaseRemoteModel<DownloadMangaRemoteModel>> call, Response<BaseRemoteModel<DownloadMangaRemoteModel>> response) {
+                callback.onDownloadSucess(response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<BaseRemoteModel<DownloadMangaRemoteModel>> call, Throwable t) {
+                callback.onDownloadError(t);
+            }
+        });
+    }
+
 
     public interface MangaDetailsCallback{
         void onDetailsSuccess(MangaDetailsRemoteModel item);
         void onDetailsError(Throwable t);
     }
 
+    public interface DownloadCallback{
+        void onDownloadSucess(DownloadMangaRemoteModel itens);
+        void onDownloadError(Throwable t);
+    }
 }

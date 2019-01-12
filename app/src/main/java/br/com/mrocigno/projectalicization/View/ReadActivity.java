@@ -41,8 +41,8 @@ public class ReadActivity extends MyActivity implements ReadInterface {
         DaggerReadComponent.builder().readModule(new ReadModule(this)).build().inject(this);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("link")){
-            presenter.loadData(intent.getStringExtra("link"));
+        if(intent.hasExtra("id")){
+            presenter.loadData(intent.getIntExtra("id", 0));
         }else{
             finish();
         }

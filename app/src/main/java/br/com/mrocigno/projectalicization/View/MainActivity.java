@@ -41,9 +41,6 @@ public class MainActivity extends MyActivity implements MainInterface, SearchMan
     @Inject FirstPageFragment firstPageFragment;
     @Inject DownloadPageFragment downloadPageFragment;
 
-//    @Inject FirstPagePresenter firstPagePresenter;
-//    @Inject DownloadPagePresenter downloadPagePresenter;
-
     RecyclerView rcySearch_Main;
 
     FrameLayout frmBlack_Main;
@@ -59,9 +56,6 @@ public class MainActivity extends MyActivity implements MainInterface, SearchMan
         initVars();
         removeFragmentToActivity(getSupportFragmentManager());
         addFragmentToActivity(getSupportFragmentManager(), firstPageFragment, R.id.frmContainer_Main, "pg1");
-        if(savedInstanceState != null){
-            Log.e(TAG, "onCreate: " + savedInstanceState.toString());
-        }
     }
 
     private void initVars(){

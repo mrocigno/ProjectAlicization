@@ -64,7 +64,7 @@ public class SavedMangaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, DetailsActivity.class);
-                    intent.putExtra("manga", new MangaListRemoteModel(item.get("name"), item.get("link"), item.get("cover"), item.get("genre"), Integer.parseInt(item.get("webid"))));
+                    intent.putExtra("manga", new MangaListRemoteModel(item.get("name"), item.get("link"), item.get("cover"), item.get("genre"), false, Integer.parseInt(item.get("webid")), 0));
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, imgCover_Cellsaved, "cover");
                     activity.startActivity(intent, options.toBundle());
                 }

@@ -6,13 +6,10 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-import br.com.mrocigno.projectalicization.Application;
 import br.com.mrocigno.projectalicization.Components.DaggerModelComponent;
 import br.com.mrocigno.projectalicization.Database.LocalData;
-import br.com.mrocigno.projectalicization.Model.ReadModel;
 import br.com.mrocigno.projectalicization.Modules.DataModule;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
-import br.com.mrocigno.projectalicization.View.ReadActivity;
 import retrofit2.Retrofit;
 
 public class MyModel {
@@ -49,18 +46,18 @@ public class MyModel {
     public void saveManga(MangaListRemoteModel item, boolean save){
         int saved = save? 1:0;
         ContentValues cv = new ContentValues();
-        if(!getLocalData().checkIfThereIs("saved_mangas", "webid = "+ item.getWebid())) {
+        if(!getLocalData().checkIfThereIs("saved_mangas", "webid = "+ item.getId())) {
             cv.put("name", item.getName());
             cv.put("cover", item.getCover());
             cv.put("link", item.getLink());
             cv.put("saved", saved);
-            cv.put("webid", item.getWebid());
+            cv.put("webid", item.getId());
             getLocalData().insert("saved_mangas", cv);
             Log.e("TESTEEE", "saveManga: " + "insert");
         }else{
             Log.e("TESTEEE", "saveManga: " + "updated");
             cv.put("saved", saved);
-            getLocalData().update("saved_mangas", cv, "webid = " + item.getWebid());
+            getLocalData().update("saved_mangas", cv, "webid = " + item.getId());
         }
     }
 }

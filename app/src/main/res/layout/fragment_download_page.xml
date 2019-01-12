@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtTitle_CellDefault"
+                android:id="@+id/txtTitle_Download"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -24,19 +24,24 @@
                 android:text="Seus downloads"
                 android:textColor="?android:textColor"
                 android:textSize="16dp"
+                android:visibility="gone"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcyDownloads_Download"
-                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="15dp"/>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/lnlDownloadsMsg_Download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

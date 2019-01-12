@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import br.com.mrocigno.projectalicization.Helpers.CustomRelativeLayout;
+import br.com.mrocigno.projectalicization.Modules.DataModule;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
 import br.com.mrocigno.projectalicization.Utils.Util;
@@ -78,7 +79,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public void setData(final PagesDataRemoteModel.Pages item){
 
-            Picasso.get().load("http://traduzame.esy.es/pageJPG.php?link=" + item.getLink()).into(imgPage_Cellpage, new Callback() {
+            Picasso.get().load(DataModule.BASE_URL + "pageJPG.php?id=" + item.getId()).into(imgPage_Cellpage, new Callback() {
                 @Override
                 public void onSuccess() {
                     lnlProgress_Read.setVisibility(View.GONE);

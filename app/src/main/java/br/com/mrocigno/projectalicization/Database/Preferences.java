@@ -10,6 +10,10 @@ public class Preferences {
 
     private SharedPreferences preferences;
 
+    public static Preferences getInstance(Context context){
+        return new Preferences(context);
+    }
+
     private Preferences(Context context) {
         preferences = context.getSharedPreferences(PREFS_APP, 0);
     }
@@ -28,5 +32,13 @@ public class Preferences {
 
     public boolean isDarkTheme(){
         return preferences.getBoolean(THEME_DATA, false);
+    }
+
+    public void setFirstTimeAskingPermission(String permission, boolean value){
+        getEditor().putBoolean(permission, value).commit();
+    }
+
+    public boolean isFirstTimeAskingPermission(String permission){
+        return preferences.getBoolean(permission, true);
     }
 }

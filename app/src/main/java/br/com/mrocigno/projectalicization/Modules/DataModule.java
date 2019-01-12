@@ -14,6 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class DataModule {
+
+    public static final String BASE_URL = "http://projectalicization.esy.es/";
+
     Activity activity;
 
     public DataModule(Activity activity){
@@ -36,7 +39,7 @@ public class DataModule {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl("http://traduzame.esy.es/")
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -45,7 +48,7 @@ public class DataModule {
     @Provides
     public Retrofit.Builder getRetrofitBuilder(){
         return new Retrofit.Builder()
-                .baseUrl("http://traduzame.esy.es/");
+                .baseUrl(BASE_URL);
     }
 
 }

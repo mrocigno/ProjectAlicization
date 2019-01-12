@@ -100,8 +100,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 cbxSelect_Cellchapter.setChecked(false);
             }
 
-            txtTitle_Cellchapter.setText(item.getChapterName());
-            lnlCell_Cellchapter.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener cellClick = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(isMultiSelect()){
@@ -117,9 +116,13 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             selectedItens.add(item);
                         }
                     }
-                    actions.onChapterClick(item.getChapterLink(), isMultiSelect());
+                    actions.onChapterClick(item.getId(), isMultiSelect());
                 }
-            });
+            };
+
+            txtTitle_Cellchapter.setText(item.getName_chapter());
+            lnlCell_Cellchapter.setOnClickListener(cellClick);
+            cbxSelect_Cellchapter.setOnClickListener(cellClick);
 
             lnlCell_Cellchapter.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -139,7 +142,7 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface ActionsChaptersAdapter{
-        void onChapterClick(String link, boolean multSelect);
+        void onChapterClick(int id, boolean multSelect);
         void onLongClick();
     }
 }

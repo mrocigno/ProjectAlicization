@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 public class PagesDataRemoteModel {
     int numPages;
-    String firstJPG;
     ArrayList<Pages> pages;
 
-    public PagesDataRemoteModel(int numPages, String firstJPG, ArrayList<Pages> pages) {
+    public PagesDataRemoteModel(int numPages, ArrayList<Pages> pages) {
         this.numPages = numPages;
-        this.firstJPG = firstJPG;
         this.pages = pages;
     }
 
@@ -21,14 +19,6 @@ public class PagesDataRemoteModel {
         this.numPages = numPages;
     }
 
-    public String getFirstJPG() {
-        return firstJPG;
-    }
-
-    public void setFirstJPG(String firstJPG) {
-        this.firstJPG = firstJPG;
-    }
-
     public ArrayList<Pages> getPages() {
         return pages;
     }
@@ -38,18 +28,68 @@ public class PagesDataRemoteModel {
     }
 
     public class Pages{
-        String link;
+        int id;
+        int id_chapter;
+        int num_page;
+        String link_page;
+        String date_added;
+        String link_jpg;
 
-        public Pages(String link) {
-            this.link = link;
+        public Pages(int id, int id_chapter, int num_page, String link_page, String date_added, String link_jpg) {
+            this.id = id;
+            this.id_chapter = id_chapter;
+            this.num_page = num_page;
+            this.link_page = link_page;
+            this.date_added = date_added;
+            this.link_jpg = link_jpg;
         }
 
-        public String getLink() {
-            return link;
+        public int getId() {
+            return id;
         }
 
-        public void setLink(String link) {
-            this.link = link;
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId_chapter() {
+            return id_chapter;
+        }
+
+        public void setId_chapter(int id_chapter) {
+            this.id_chapter = id_chapter;
+        }
+
+        public int getNum_page() {
+            return num_page;
+        }
+
+        public void setNum_page(int num_page) {
+            this.num_page = num_page;
+        }
+
+        public String getLink_page() {
+            return link_page;
+        }
+
+        public void setLink_page(String link_page) {
+            this.link_page = link_page;
+        }
+
+        public String getDate_added() {
+            return date_added;
+        }
+
+        public void setDate_added(String date_added) {
+            this.date_added = date_added;
+        }
+
+        public String getLink_jpg() {
+            return link_jpg;
+        }
+
+        public void setLink_jpg(String link_jpg) {
+            this.link_jpg = link_jpg;
         }
     }
 }

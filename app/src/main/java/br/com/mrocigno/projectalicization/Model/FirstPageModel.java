@@ -34,7 +34,7 @@ public class FirstPageModel extends MyModel {
     }
 
     public boolean checkIfIsSaved(MangaListRemoteModel item){
-        return getLocalData().checkIfThereIs("saved_mangas", "webid = "+ item.getWebid() + " AND saved = 1");
+        return getLocalData().checkIfThereIs("saved_mangas", "webid = "+ item.getId() + " AND saved = 1");
     }
 
     public ArrayList<Map<String, String>> getSavedMangaList(){

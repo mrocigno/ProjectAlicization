@@ -1,10 +1,13 @@
 package br.com.mrocigno.projectalicization.View;
 
 import android.app.ActivityOptions;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +22,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -69,6 +73,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
         initDagger();
         initVars();
+        showSearchView(false);
 
         Intent intent = getIntent();
         if(intent.hasExtra("manga")){
@@ -136,8 +141,8 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
     @Override
     public void setDetailsData(MangaDetailsRemoteModel item) {
         txtDescription_Details.setText(item.getDescription());
-        txtYear_Details.setText(item.getYearRelease());
-        txtAlterName_Details.setText(item.getAlternateName());
+        txtYear_Details.setText(item.getRelease_year());
+        txtAlterName_Details.setText(item.getAlternative_name());
         txtArtist_Details.setText(item.getArtist());
         txtGenre_Details.setText(item.getGenre());
         txtStatus_Details.setText(item.getStatus());
@@ -169,14 +174,14 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
     }
 
     @Override
-    public void onChapterClick(String link, boolean multSelect) {
+    public void onChapterClick(int id, boolean multSelect) {
         if(multSelect && actionMode != null){
             int nums = refreshActionMode();
             if(nums == 0)
                 actionMode.finish();
         }else{
             Intent intent = new Intent(getActivity(), ReadActivity.class);
-            intent.putExtra("link", link);
+            intent.putExtra("id", id);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         }
     }
@@ -193,7 +198,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         if(fabBtn_Default.getTag() == null || fabBtn_Default.getTag() == "unselected"){
             openMultselect();
         }else if(fabBtn_Default.getTag() != null && fabBtn_Default.getTag() == "selected"){
-            actionMode.finish();
+            startDownload();
         }
     }
 
@@ -205,13 +210,36 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
     }
 
     private void openMultselect() {
-        fabBtn_Default.setImageDrawable(getDrawable(R.drawable.ic_close));
+        fabBtn_Default.setImageDrawable(getDrawable(R.drawable.ic_done));
         ((ChaptersAdapter) rcyChapters_Details.getAdapter()).setMultiSelect(true);
         fabBtn_Default.setTag("selected");
         actionMode = startActionMode(mActionModeCallback);
         rcyChapters_Details.getAdapter().notifyDataSetChanged();
     }
 
+    private void startDownload(){
+        String ids = "";
+        ArrayList<ChapterMangaRemoteModel> list = ((ChaptersAdapter) rcyChapters_Details.getAdapter()).getSelectedItens();
+        if(list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                ids += list.get(i).getId() + (i == (list.size() - 1) ? "" : ",");
+            }
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), "download")
+                    .setSmallIcon(android.R.drawable.stat_sys_download)
+                    .setContentTitle("Preparando download")
+                    .setProgress(0, 0, true)
+                    .setPriority(NotificationManager.IMPORTANCE_HIGH);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+            notificationManager.notify(1, mBuilder.build());
+
+            presenter.prepareDownload(ids);
+            actionMode.finish();
+        }else{
+            Toast.makeText(getActivity(), "Selecione um capitulo", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     ActionMode actionMode;
     Menu context_menu;
@@ -234,7 +262,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             if(item.getItemId() == R.id.actionmode_download){
-
+                startDownload();
                 return true;
             }
             return false;

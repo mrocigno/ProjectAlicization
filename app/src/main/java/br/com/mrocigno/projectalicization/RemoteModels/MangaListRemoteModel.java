@@ -9,14 +9,25 @@ public class MangaListRemoteModel implements Serializable {
     String cover;
     String genre;
     boolean isSaved;
-    int webid;
+    int id;
+    int num_chapters;
 
-    public MangaListRemoteModel(String name, String link, String cover, String genre, int webid) {
+    public MangaListRemoteModel(String name, String link, String cover, String genre, boolean isSaved, int id, int num_chapters) {
         this.name = name;
         this.link = link;
         this.cover = cover;
         this.genre = genre;
-        this.webid = webid;
+        this.isSaved = isSaved;
+        this.id = id;
+        this.num_chapters = num_chapters;
+    }
+
+    public int getNum_chapters() {
+        return num_chapters;
+    }
+
+    public void setNum_chapters(int num_chapters) {
+        this.num_chapters = num_chapters;
     }
 
     public String getGenre() {
@@ -27,12 +38,12 @@ public class MangaListRemoteModel implements Serializable {
         this.genre = genre;
     }
 
-    public int getWebid() {
-        return webid;
+    public int getId() {
+        return id;
     }
 
-    public void setWebid(int webid) {
-        this.webid = webid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

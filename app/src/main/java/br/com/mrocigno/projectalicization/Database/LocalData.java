@@ -23,34 +23,35 @@ public class LocalData extends SQLiteOpenHelper {
                             {"name", "text"},
                             {"link", "text"},
                             {"cover", "text"},
+                            {"num_pages", "integer"},
                             {"saved", "integer"},
                             {"webid", "integer"}
                     },
                     {
                             {"downloaded_mangas", "table"},
-                            {"id", "integer primary key autoincrement"},
+                            {"webid", "integer primary key"},
                             {"name", "text"},
                             {"link", "text"},
-                            {"cover", "text"},
-                            {"webid", "integer"}
+                            {"cover", "text"}
                     },
                     {
                             {"downloaded_chapters", "table"},
-                            {"id", "integer primary key autoincrement"},
+                            {"webid", "integer primary key"},
                             {"name", "text"},
-                            {"num", "integer"},
+                            {"num_pages", "integer"},
                             {"link", "text"},
                             {"id_manga", "integer"}
                     },
                     {
                             {"downloaded_pages", "table"},
-                            {"id", "integer primary key autoincrement"},
+                            {"webid", "integer primary key"},
                             {"id_chapter", "integer"},
                             {"link_page", "text"},
+                            {"local_path", "text"},
                             {"num_page", "integer"}
                     }
             };
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
 
     public LocalData(Context context) {
         super(context, NOME_BANCO, null, VERSAO);

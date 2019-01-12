@@ -128,7 +128,7 @@ public abstract class MyActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         if(Preferences.getInstace(getActivity()).isDarkTheme()){
-            menu.getItem(1).setTitle("Tema claro");
+            menu.getItem(0).setTitle("Tema claro");
         }
         return true;
     }
@@ -155,6 +155,10 @@ public abstract class MyActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showSearchView(boolean show){
+        srvSearch_Default.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override

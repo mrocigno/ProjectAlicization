@@ -14,8 +14,8 @@ public class ReadPresenter implements ReadModel.DataCallback {
         this.model = model;
     }
 
-    public void loadData(String link){
-        model.loadData(link, this);
+    public void loadData(int id){
+        model.loadData(id, this);
     }
 
     @Override
