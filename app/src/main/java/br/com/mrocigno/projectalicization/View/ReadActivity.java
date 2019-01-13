@@ -74,7 +74,7 @@ public class ReadActivity extends MyActivity implements ReadInterface {
 
     @Override
     public void onBackPressed() {
-        if(rcyPages_Read != null){
+        if(rcyPages_Read != null && rcyPages_Read.getAdapter() != null){
             ((PagesAdapter)rcyPages_Read.getAdapter()).setClear(true);
             rcyPages_Read.getAdapter().notifyDataSetChanged();
             rcyPages_Read.setAdapter(null);

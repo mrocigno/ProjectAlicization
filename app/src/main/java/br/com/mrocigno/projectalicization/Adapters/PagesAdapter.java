@@ -3,6 +3,7 @@ package br.com.mrocigno.projectalicization.Adapters;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,14 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import br.com.mrocigno.projectalicization.Helpers.CustomRelativeLayout;
 import br.com.mrocigno.projectalicization.Modules.DataModule;
 import br.com.mrocigno.projectalicization.R;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
+import br.com.mrocigno.projectalicization.Utils.GlideUtil;
 import br.com.mrocigno.projectalicization.Utils.Util;
 
 public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -79,7 +82,7 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public void setData(final PagesDataRemoteModel.Pages item){
 
-            Picasso.get().load(DataModule.BASE_URL + "pageJPG.php?id=" + item.getId()).into(imgPage_Cellpage, new Callback() {
+            Callback picassoCallback = new Callback() {
                 @Override
                 public void onSuccess() {
                     lnlProgress_Read.setVisibility(View.GONE);
@@ -89,7 +92,17 @@ public class PagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onError(Exception e) {
                     txtMsgProgress_Read.setText("A página não pode ser carregada");
                 }
-            });
+            };
+
+            if(item.isOffine()) {
+                File img =  new File(item.getLocal_path());
+                if(img.exists()){
+                    GlideUtil.initGlide(activity, img, imgPage_Cellpage);
+                    lnlProgress_Read.setVisibility(View.GONE);
+                }else
+                    Picasso.get().load(DataModule.BASE_URL + "pageJPG.php?id=" + item.getId()).into(imgPage_Cellpage, picassoCallback);
+            }else
+                Picasso.get().load(DataModule.BASE_URL + "pageJPG.php?id=" + item.getId()).into(imgPage_Cellpage, picassoCallback);
 
         }
 

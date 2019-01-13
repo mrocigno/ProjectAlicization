@@ -3,6 +3,7 @@ package br.com.mrocigno.projectalicization.View;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -72,17 +73,19 @@ public class DownloadPageFragment extends Fragment implements DownloadPageInterf
 
     @Override
     public void onClickThumb(ActivityOptions options, MangaListRemoteModel item) {
-
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("manga", item);
+        getActivity().startActivity(intent, options.toBundle());
     }
 
     @Override
     public void onClickSaveButton(MangaListRemoteModel item, boolean save) {
-
+        presenter.saveManga(item, save);
     }
 
     @Override
     public boolean verifieIfSaved(MangaListRemoteModel item) {
-        return false;
+        return presenter.checkSaved(item);
     }
 
 

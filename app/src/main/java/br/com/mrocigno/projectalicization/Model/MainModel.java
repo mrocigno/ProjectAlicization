@@ -41,6 +41,8 @@ public class MainModel extends MyModel {
         return getLocalData().checkIfThereIs("saved_mangas", "webid = "+ item.getId() + " AND saved = 1");
     }
 
+
+
     public ArrayList<Map<String, String>> getSavedMangaList(){
         return getLocalData().query("SELECT * FROM saved_mangas WHERE saved = 1", null);
     }

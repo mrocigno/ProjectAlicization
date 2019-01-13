@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -48,7 +49,7 @@ public class DownloadServiceTest extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent.hasExtra("data")){
+        if(intent != null && intent.hasExtra("data")){
             DownloadMangaRemoteModel data = (DownloadMangaRemoteModel) intent.getSerializableExtra("data");
 
             for (int i = 0; i < data.getChapters().size(); i++) {
@@ -83,7 +84,7 @@ public class DownloadServiceTest extends Service {
         cvManga.put("webid", item.getId());
         cvManga.put("link", item.getLink());
         cvManga.put("cover", item.getCover());
-        cvManga.put("cover", item.getCover());
+        cvManga.put("description", item.getDescription());
         data.insert("downloaded_mangas", cvManga);
 
         ArrayList<DownloadMangaRemoteModel.Chapters> chapters = item.getChapters();
@@ -128,7 +129,7 @@ public class DownloadServiceTest extends Service {
                         if(MAX == PROGRESS){
                             Log.e("TESTEEE", "fim");
                             mBuilder.setProgress(0, 0, false);
-                            mBuilder.setSmallIcon(R.drawable.ic_done);
+                            mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
                             mBuilder.setContentTitle("Download completo");
                             notificationManager.notify(1, mBuilder.build());
                             DownloadServiceTest.this.stopSelf();
@@ -143,4 +144,22 @@ public class DownloadServiceTest extends Service {
                     }
                 });
     }
+
+    String TAG = "TESTEEE";
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: ");
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        mBuilder.setProgress(0, 0, false);
+        mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
+        mBuilder.setContentTitle("Download interrompido");
+        notificationManager.notify(1, mBuilder.build());
+    }
+
 }

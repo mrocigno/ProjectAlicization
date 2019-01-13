@@ -38,7 +38,7 @@ public class FirstPageModel extends MyModel {
     }
 
     public ArrayList<Map<String, String>> getSavedMangaList(){
-        return getLocalData().query("SELECT * FROM saved_mangas WHERE saved = 1", null);
+        return getLocalData().query("SELECT * FROM saved_mangas WHERE saved = 1 ORDER BY id ASC", null);
     }
 
     public interface MangaListCallback{

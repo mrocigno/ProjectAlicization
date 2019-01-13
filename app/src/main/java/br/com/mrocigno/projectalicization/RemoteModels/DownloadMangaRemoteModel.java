@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class DownloadMangaRemoteModel implements Serializable {
     int id;
     String name;
+    String description;
     String link;
     String cover;
     ArrayList<Chapters> chapters;
@@ -24,6 +25,14 @@ public class DownloadMangaRemoteModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLink() {

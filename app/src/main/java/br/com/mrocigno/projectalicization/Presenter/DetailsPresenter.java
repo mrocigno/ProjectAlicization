@@ -4,7 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import br.com.mrocigno.projectalicization.Model.DetailsModel;
+import br.com.mrocigno.projectalicization.RemoteModels.ChapterMangaRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.DownloadMangaRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
@@ -41,6 +45,10 @@ public class DetailsPresenter implements DetailsModel.MangaDetailsCallback, Deta
         PermissionUtils.checkPermission(view.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, this);
     }
 
+    public boolean verifieIfIsDownloaded(int id){
+        return model.isDownloaded(id);
+    }
+
     @Override
     public void onDetailsSuccess(MangaDetailsRemoteModel item) {
         view.setProgressbar(false);
@@ -49,8 +57,30 @@ public class DetailsPresenter implements DetailsModel.MangaDetailsCallback, Deta
     }
 
     @Override
-    public void onDetailsError(Throwable t) {
+    public void onDetailsError(Throwable t, int idManga) {
         view.setProgressbar(false);
+        ArrayList<Map<String, String>> list = model.getDownloadedChapters(idManga);
+
+        if(list.size() > 0){
+            ArrayList<ChapterMangaRemoteModel> chapters = new ArrayList<>();
+            String description = "";
+
+            for (int i = 0; i < list.size(); i++) {
+                Map<String, String> map = list.get(i);
+                chapters.add(new ChapterMangaRemoteModel(
+                        Integer.parseInt(map.get("webid")),
+                        idManga,
+                        0,
+                        map.get("name"),
+                        "",
+                        "",
+                        false
+                        ));
+                description = map.get("description");
+            }
+            MangaDetailsRemoteModel item = new MangaDetailsRemoteModel(idManga, description, chapters, true);
+            view.setDetailsData(item);
+        }
         Log.e("TESTEEE", "onDetailsError: ", t);
     }
 

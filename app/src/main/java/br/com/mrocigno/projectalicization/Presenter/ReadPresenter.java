@@ -15,7 +15,12 @@ public class ReadPresenter implements ReadModel.DataCallback {
     }
 
     public void loadData(int id){
-        model.loadData(id, this);
+        PagesDataRemoteModel pages = model.loadLocalData(id);
+        if(pages != null){
+            onDataSuccess(pages);
+        }else{
+            model.loadData(id, this);
+        }
     }
 
     @Override

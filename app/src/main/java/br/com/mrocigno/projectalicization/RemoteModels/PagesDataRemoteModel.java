@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class PagesDataRemoteModel {
     int numPages;
+    boolean isOffine;
     ArrayList<Pages> pages;
 
-    public PagesDataRemoteModel(int numPages, ArrayList<Pages> pages) {
+    public PagesDataRemoteModel(int numPages, ArrayList<Pages> pages, boolean isOffine) {
         this.numPages = numPages;
         this.pages = pages;
+        this.isOffine = isOffine;
     }
 
     public int getNumPages() {
@@ -27,21 +29,32 @@ public class PagesDataRemoteModel {
         this.pages = pages;
     }
 
-    public class Pages{
+    public boolean isOffine() {
+        return isOffine;
+    }
+
+    public void setOffine(boolean offine) {
+        isOffine = offine;
+    }
+
+    public static class Pages{
         int id;
         int id_chapter;
         int num_page;
         String link_page;
         String date_added;
         String link_jpg;
+        String local_path;
+        boolean isOffine;
 
-        public Pages(int id, int id_chapter, int num_page, String link_page, String date_added, String link_jpg) {
+
+        public Pages(int id, int id_chapter, int num_page, String link_page, String local_path, boolean isOffine) {
             this.id = id;
             this.id_chapter = id_chapter;
             this.num_page = num_page;
+            this.local_path = local_path;
+            this.isOffine = isOffine;
             this.link_page = link_page;
-            this.date_added = date_added;
-            this.link_jpg = link_jpg;
         }
 
         public int getId() {
@@ -90,6 +103,22 @@ public class PagesDataRemoteModel {
 
         public void setLink_jpg(String link_jpg) {
             this.link_jpg = link_jpg;
+        }
+
+        public String getLocal_path() {
+            return local_path;
+        }
+
+        public void setLocal_path(String local_path) {
+            this.local_path = local_path;
+        }
+
+        public boolean isOffine() {
+            return isOffine;
+        }
+
+        public void setOffine(boolean offine) {
+            isOffine = offine;
         }
     }
 }

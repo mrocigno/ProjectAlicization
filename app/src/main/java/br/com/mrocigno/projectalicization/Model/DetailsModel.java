@@ -4,12 +4,14 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import br.com.mrocigno.projectalicization.Config.MyModel;
 import br.com.mrocigno.projectalicization.Config.MyNetworkRoutes;
 import br.com.mrocigno.projectalicization.RemoteModels.BaseRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.DownloadMangaRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.MangaDetailsRemoteModel;
+import br.com.mrocigno.projectalicization.RemoteModels.MangaListRemoteModel;
 import br.com.mrocigno.projectalicization.RemoteModels.PagesDataRemoteModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +27,7 @@ public class DetailsModel extends MyModel {
         return getLocalData().checkIfThereIs("saved_mangas", "saved = 1 and webid = "+ webid);
     }
 
-    public void getMangaDetails(int id, final MangaDetailsCallback callback){
+    public void getMangaDetails(final int id, final MangaDetailsCallback callback){
         getRetrofit().create(MyNetworkRoutes.class).getMangaDetails(id).enqueue(new Callback<BaseRemoteModel<MangaDetailsRemoteModel>>() {
             @Override
             public void onResponse(Call<BaseRemoteModel<MangaDetailsRemoteModel>> call, Response<BaseRemoteModel<MangaDetailsRemoteModel>> response) {
@@ -34,7 +36,7 @@ public class DetailsModel extends MyModel {
 
             @Override
             public void onFailure(Call<BaseRemoteModel<MangaDetailsRemoteModel>> call, Throwable t) {
-                callback.onDetailsError(t);
+                callback.onDetailsError(t, id);
             }
         });
     }
@@ -53,10 +55,17 @@ public class DetailsModel extends MyModel {
         });
     }
 
+    public ArrayList<Map<String,String>> getDownloadedChapters(int idManga){
+        return getLocalData().query("SELECT m.description, c.name, c.webid FROM downloaded_chapters c INNER JOIN downloaded_mangas m ON m.webid = c.id_manga WHERE m.webid = " + idManga,null);
+    }
+
+    public boolean isDownloaded(int id){
+        return getLocalData().checkIfThereIs("downloaded_chapters", "webid = " + id);
+    }
 
     public interface MangaDetailsCallback{
         void onDetailsSuccess(MangaDetailsRemoteModel item);
-        void onDetailsError(Throwable t);
+        void onDetailsError(Throwable t, int idManga);
     }
 
     public interface DownloadCallback{

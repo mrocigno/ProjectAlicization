@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lnlCell_Cellchapter"
-    android:layout_width="match_parent"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardCell_Cellchapter"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_bottom_center_gray"
+    android:layout_margin="5dp"
     android:foreground="?selectableItemBackground"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    app:cardBackgroundColor="?colorControlNormal"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="2dp">
 
-    <CheckBox
-        android:id="@+id/cbxSelect_Cellchapter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="?android:textColor"
-        android:visibility="invisible"/>
+    <FrameLayout
+        android:id="@+id/frmSelect_Cellchapter"
+        android:layout_width="82dp"
+        android:layout_height="130dp">
 
-    <TextView
-        android:id="@+id/txtTitle_Cellchapter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1"
-        android:text="TESTE"
-        android:textStyle="bold" />
+        <CheckBox
+            android:id="@+id/cbxSelect_Cellchapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="?android:textColor"
+            android:visibility="visible" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/txtTitle_Cellchapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgIconDownload_Cellchapter"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_file_download_theme"/>
+
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

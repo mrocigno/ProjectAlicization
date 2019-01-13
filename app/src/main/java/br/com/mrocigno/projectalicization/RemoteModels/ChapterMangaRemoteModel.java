@@ -8,6 +8,7 @@ public class ChapterMangaRemoteModel {
     String name_chapter;
     String link_chapter;
     String date_updated;
+    boolean downloaded;
     boolean selected;
 
     public ChapterMangaRemoteModel(int id, int id_manga, int num_pages, String name_chapter, String link_chapter, String date_updated, boolean selected) {
@@ -74,5 +75,13 @@ public class ChapterMangaRemoteModel {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(boolean downloaded) {
+        this.downloaded = downloaded;
     }
 }

@@ -30,6 +30,7 @@ public class LocalData extends SQLiteOpenHelper {
                     {
                             {"downloaded_mangas", "table"},
                             {"webid", "integer primary key"},
+                            {"description", "text"},
                             {"name", "text"},
                             {"link", "text"},
                             {"cover", "text"}
@@ -51,7 +52,7 @@ public class LocalData extends SQLiteOpenHelper {
                             {"num_page", "integer"}
                     }
             };
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 3;
 
     public LocalData(Context context) {
         super(context, NOME_BANCO, null, VERSAO);

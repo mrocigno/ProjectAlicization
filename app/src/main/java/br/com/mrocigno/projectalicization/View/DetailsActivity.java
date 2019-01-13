@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,10 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
 
     MangaListRemoteModel item;
 
+    CardView cardDetails_Details;
+
+    Boolean isOffilne;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -99,6 +104,7 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
         imgSave_Details = findViewById(R.id.imgSave_Details);
         pgrBar_Details = findViewById(R.id.pgrBar_Details);
         rcyChapters_Details = findViewById(R.id.rcyChapters_Details);
+        cardDetails_Details = findViewById(R.id.cardDetails_Details);
         showFab(true, getDrawable(R.drawable.ic_file_download));
 
         imgSave_Details.setOnClickListener(new View.OnClickListener() {
@@ -143,22 +149,21 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
     @Override
     public void setDetailsData(MangaDetailsRemoteModel item) {
         txtDescription_Details.setText(item.getDescription());
-        txtYear_Details.setText(item.getRelease_year());
-        txtAlterName_Details.setText(item.getAlternative_name());
-        txtArtist_Details.setText(item.getArtist());
-        txtGenre_Details.setText(item.getGenre());
-        txtStatus_Details.setText(item.getStatus());
-        txtAutor_Details.setText(item.getAuthor());
+        isOffilne = item.isOffline();
+        if(!item.isOffline()) {
+            txtYear_Details.setText(item.getRelease_year());
+            txtAlterName_Details.setText(item.getAlternative_name());
+            txtArtist_Details.setText(item.getArtist());
+            txtGenre_Details.setText(item.getGenre());
+            txtStatus_Details.setText(item.getStatus());
+            txtAutor_Details.setText(item.getAuthor());
+        }else{
+            cardDetails_Details.setVisibility(View.GONE);
+            showFab(false, null);
+        }
 
         ChaptersAdapter chaptersAdapter = new ChaptersAdapter(item.getChapters(), this, getActivity());
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        rcyChapters_Details.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.d(TAG, "onScrolled: ");
-            }
-        });
+        GridLayoutManager llm = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.HORIZONTAL, false);
         rcyChapters_Details.setLayoutManager(llm);
         rcyChapters_Details.setAdapter(chaptersAdapter);
     }
@@ -192,6 +197,11 @@ public class DetailsActivity extends MyActivity implements DetailsInterface, Cha
     public void onLongClick() {
         openMultselect();
         refreshActionMode();
+    }
+
+    @Override
+    public boolean verifieIfIsDownloaded(int id) {
+        return presenter.verifieIfIsDownloaded(id);
     }
 
     @Override

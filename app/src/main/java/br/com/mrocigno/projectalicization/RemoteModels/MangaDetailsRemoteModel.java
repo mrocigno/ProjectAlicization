@@ -20,6 +20,7 @@ public class MangaDetailsRemoteModel {
     String description;
     String font;
     ArrayList<ChapterMangaRemoteModel> chapters;
+    boolean offline;
 
     public MangaDetailsRemoteModel(int id, int num_chapters, String name, String alternative_name, String release_year, String date_added, String status, String author, String artist, String genre, String cover, String background_cover, String link, String description, String font, ArrayList<ChapterMangaRemoteModel> chapters) {
         this.id = id;
@@ -38,6 +39,13 @@ public class MangaDetailsRemoteModel {
         this.description = description;
         this.font = font;
         this.chapters = chapters;
+    }
+
+    public MangaDetailsRemoteModel(int id, String description, ArrayList<ChapterMangaRemoteModel> chapters, boolean offline) {
+        this.id = id;
+        this.description = description;
+        this.chapters = chapters;
+        this.offline = offline;
     }
 
     public int getId() {
@@ -166,6 +174,14 @@ public class MangaDetailsRemoteModel {
 
     public void setChapters(ArrayList<ChapterMangaRemoteModel> chapters) {
         this.chapters = chapters;
+    }
+
+    public boolean isOffline() {
+        return offline;
+    }
+
+    public void setOffline(boolean offline) {
+        this.offline = offline;
     }
 }
 

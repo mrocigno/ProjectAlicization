@@ -23,6 +23,14 @@ public class DownloadPagePresenter {
         this.aView = aView;
     }
 
+    public void saveManga(MangaListRemoteModel item, boolean save){
+        model.saveManga(item,save);
+    }
+
+    public boolean checkSaved(MangaListRemoteModel item){
+        return model.checkIfIsSaved(item);
+    }
+
     public void loadData() {
         ArrayList<Map<String, String>> data = model.getDownloadedMangas();
         if(data.size() > 0){

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 import br.com.mrocigno.projectalicization.Config.MyModel;
 import br.com.mrocigno.projectalicization.Config.MyNetworkRoutes;
@@ -21,6 +23,28 @@ public class ReadModel extends MyModel {
         super(activity);
         this.activity = activity;
     }
+
+    public PagesDataRemoteModel loadLocalData(int idChapter){
+        ArrayList<Map<String, String>> list = getLocalData().query("SELECT * FROM downloaded_pages WHERE id_chapter = " + idChapter, null);
+        if(list.size() > 0){
+            ArrayList<PagesDataRemoteModel.Pages> pages = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                Map<String, String>map = list.get(i);
+                pages.add(new PagesDataRemoteModel.Pages(
+                        Integer.parseInt(map.get("webid")),
+                        idChapter,
+                        Integer.parseInt(map.get("num_page")),
+                        map.get("link_page"),
+                        map.get("local_path"),
+                        true
+                ));
+            }
+            return new PagesDataRemoteModel(0, pages, true);
+        }else{
+            return null;
+        }
+    }
+
 
     public void loadData(int id, final DataCallback callback){
         getRetrofit().create(MyNetworkRoutes.class).getPagesData(id).enqueue(new Callback<BaseRemoteModel<PagesDataRemoteModel>>() {

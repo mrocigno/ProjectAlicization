@@ -197,13 +197,15 @@ public abstract class MyActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
     public void showFab(boolean show, Drawable drawable){
         fabBtn_Default.setVisibility(show? View.VISIBLE: View.GONE);
-        fabBtn_Default.setImageDrawable(drawable);
-        fabBtn_Default.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickFab();
-            }
-        });
+        if(show){
+            fabBtn_Default.setImageDrawable(drawable);
+            fabBtn_Default.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickFab();
+                }
+            });
+        }
     }
 
     public void onClickFab(){}

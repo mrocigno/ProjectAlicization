@@ -3,12 +3,15 @@ package br.com.mrocigno.projectalicization.Adapters;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -74,16 +77,20 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private class AdapterViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout lnlCell_Cellchapter;
+        CardView cardCell_Cellchapter;
+        FrameLayout frmSelect_Cellchapter;
         TextView txtTitle_Cellchapter;
         CheckBox cbxSelect_Cellchapter;
+        ImageView imgIconDownload_Cellchapter;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            lnlCell_Cellchapter = itemView.findViewById(R.id.lnlCell_Cellchapter);
+            cardCell_Cellchapter = itemView.findViewById(R.id.cardCell_Cellchapter);
+            frmSelect_Cellchapter = itemView.findViewById(R.id.frmSelect_Cellchapter);
             txtTitle_Cellchapter = itemView.findViewById(R.id.txtTitle_Cellchapter);
             cbxSelect_Cellchapter = itemView.findViewById(R.id.cbxSelect_Cellchapter);
+            imgIconDownload_Cellchapter = itemView.findViewById(R.id.imgIconDownload_Cellchapter);
         }
 
         public void setData(final ChapterMangaRemoteModel item, final ActionsChaptersAdapter actions, boolean multiSelect){
@@ -92,12 +99,19 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }else{
                 cbxSelect_Cellchapter.setVisibility(View.INVISIBLE);
             }
+
             if(item.isSelected()) {
-                lnlCell_Cellchapter.setBackgroundColor(Color.LTGRAY);
+                frmSelect_Cellchapter.setBackground(activity.getDrawable(R.drawable.border_select));
                 cbxSelect_Cellchapter.setChecked(true);
             }else{
-                lnlCell_Cellchapter.setBackground(activity.getDrawable(R.drawable.border_bottom_center_gray));
+                frmSelect_Cellchapter.setBackground(null);
                 cbxSelect_Cellchapter.setChecked(false);
+            }
+
+            if(actions.verifieIfIsDownloaded(item.getId())){
+                imgIconDownload_Cellchapter.setVisibility(View.VISIBLE);
+            }else{
+                imgIconDownload_Cellchapter.setVisibility(View.GONE);
             }
 
             View.OnClickListener cellClick = new View.OnClickListener() {
@@ -106,12 +120,12 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     if(isMultiSelect()){
                         if(item.isSelected()){
                             item.setSelected(false);
-                            lnlCell_Cellchapter.setBackground(activity.getDrawable(R.drawable.border_bottom_center_gray));
+                            frmSelect_Cellchapter.setBackground(null);
                             cbxSelect_Cellchapter.setChecked(false);
                             selectedItens.remove(item);
                         }else{
                             item.setSelected(true);
-                            lnlCell_Cellchapter.setBackgroundColor(Color.LTGRAY);
+                            frmSelect_Cellchapter.setBackground(activity.getDrawable(R.drawable.border_select));
                             cbxSelect_Cellchapter.setChecked(true);
                             selectedItens.add(item);
                         }
@@ -121,16 +135,16 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             };
 
             txtTitle_Cellchapter.setText(item.getName_chapter());
-            lnlCell_Cellchapter.setOnClickListener(cellClick);
+            cardCell_Cellchapter.setOnClickListener(cellClick);
             cbxSelect_Cellchapter.setOnClickListener(cellClick);
 
-            lnlCell_Cellchapter.setOnLongClickListener(new View.OnLongClickListener() {
+            cardCell_Cellchapter.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     if(!isMultiSelect()){
                         setMultiSelect(true);
                         item.setSelected(true);
-                        lnlCell_Cellchapter.setBackgroundColor(Color.LTGRAY);
+                        frmSelect_Cellchapter.setBackground(activity.getDrawable(R.drawable.border_select));
                         cbxSelect_Cellchapter.setChecked(true);
                         selectedItens.add(item);
                         actions.onLongClick();
@@ -144,5 +158,6 @@ public class ChaptersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public interface ActionsChaptersAdapter{
         void onChapterClick(int id, boolean multSelect);
         void onLongClick();
+        boolean verifieIfIsDownloaded(int id);
     }
 }
